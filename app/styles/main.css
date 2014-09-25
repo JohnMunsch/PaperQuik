@@ -1,0 +1,70 @@
+@media not print {
+  body {
+    padding-top: 50px;
+  }
+}
+
+.jumbotron {
+  background-image: url("/images/Jumbotron-Group-Paper.jpg");
+  background-size: cover;
+
+  color: black;
+  text-shadow: white 0.1em 0.1em 0.2em;
+
+  margin-bottom: 10px;
+}
+
+div.size-section a {
+  margin-right: 10px;
+}
+
+.paperIcon {
+  display: inline-block;
+  background-color: white;
+  padding: 4px;
+
+  color: black;
+  font-size: smaller;
+  font-weight: bold;
+}
+
+.paperIcon.notSelected {
+  background-color: gray;
+}
+
+.layoutIcon {
+  display: inline-block;
+  background-color: white;
+  width: 200px;
+  height: 150px;
+  margin-right: 10px;
+  padding: 4px;
+
+  color: black;
+  font-size: smaller;
+  font-weight: bold;
+}
+
+div.print-section select {
+  color: black;
+}
+
+.leaderboardAd {
+  display: table;
+  margin: 0 auto;
+}
+
+.leaderboardAdWrapperTop {
+  background-color: #485563;
+  padding-top: 5px;
+  margin-bottom: 5px;
+}
+
+.leaderboardAdWrapperBottom {
+  background-color: #4e5d6c;
+  padding-top: 5px;
+}
+
+#logo {
+  display: none;
+}

@@ -1,0 +1,119 @@
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+  #mc_embed_signup{
+    margin-top: 80px;
+    background: rgb(78, 93, 108);
+    clear: left;
+    font: 14px Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  #mc_embed_signup label {
+    font-weight: normal;
+  }
+  #mc_embed_signup input {
+    color: black;
+  }
+  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div class="hidden-print" ng-include="'views/menu.html'"></div>
+<img class="visible-print" ng-src="{{dataURL}}">
+<div class="container hidden-print">
+  <div class="leaderboardAdWrapperTop">
+    <div class="leaderboardAd">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- PaperQuik Leaderboard -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-8376642740439271"
+           data-ad-slot="6535942993"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+
+  <div class="panel panel-default print-section">
+    <div class="panel-heading">
+      <h2>3: Print your paper</h2>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-8">
+          <img id="pageImage" width="100%" ng-src="{{dataURL}}">
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-block" ng-click="print()">Print your paper</button>
+
+          <div id="mc_embed_signup">
+            <form action="http://johnmunsch.us8.list-manage.com/subscribe/post?u=bd3c8c7355797b6633a3503e7&amp;id=e3f181919d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+              <label for="mce-EMAIL">Subscribe to learn when PaperQuik updates</label>
+              <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+              <div style="position: absolute; left: -5000px;"><input type="text" name="b_bd3c8c7355797b6633a3503e7_e3f181919d" value=""></div>
+              <div class="clear"><button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary">Subscribe</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <canvas class="hidden" id="hiddenCanvas" hidpi="off" width="{{paperWidthInPixels(selectedPaper)}}"
+              height="{{paperHeightInPixels(selectedPaper)}}">
+      </canvas>
+    </div>
+  </div>
+
+  <div class="leaderboardAdWrapperBottom">
+    <div class="leaderboardAd">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- PaperQuik Leaderboard -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-8376642740439271"
+           data-ad-slot="6535942993"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+  
+  <footer>
+    <p>© 2014 John Munsch</p>
+  </footer>
+  <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+      <h3>Printing Help</h3>
+    </div>
+    <div class="modal-body">
+      <div ng-if="chrome && mac">
+        <p>It looks like you're running Chrome on Mac. Set <strong>Margins to None</strong> for the best results.</p>
+        <img width="100%" src="images/Chrome-on-Mac.jpg">
+      </div>
+      <div ng-if="chrome && windows">
+        <p>It looks like you're running Chrome on Windows. Set <strong>Margins to None</strong> for the best results.</p>
+        <img width="100%" src="images/Chrome-on-Windows.jpg">
+      </div>
+      <div ng-if="firefox && mac">
+        <p>It looks like you're running Firefox on Mac.</p>
+      </div>
+      <div ng-if="firefox && windows">
+        <p>It looks like you're running Firefox on Windows.</p>
+      </div>
+      <div ng-if="ie">
+        <p>It looks like you're running Internet Explorer.</p>
+      </div>
+      <div ng-if="safari">
+        <p>It looks like you're running Safari.</p>
+      </div>
+      <div ng-if="opera && mac">
+        <p>It looks like you're running Opera on Mac.</p>
+      </div>
+      <div ng-if="opera && windows">
+        <p>It looks like you're running Opera on Windows.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="ok()">Print</button>
+      <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+  </script>
+</div>
