@@ -30,9 +30,7 @@ Then use Grunt to run a server and launch the web page in a browser where you ca
 
 ## Testing
 
-Or run the unit tests with (look for the code coverage reports as index.html files under the "coverage" directory; there will be one for each browser under which the tests were run):
-
-`grunt test`
+Sorry, there are no working tests at this time. If you're just looking for an example of some tests, you should check my project [airquotes](), it has 100% code coverage.
 
 ## To-Do List
 
