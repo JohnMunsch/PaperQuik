@@ -1,6 +1,12 @@
 # PaperQuik README
 
+## Introduction
 
+After going to several sites and not being able to get the kind of printable paper I wanted (due to poor print quality or a lack of choices I liked), I decided to make my own. I thought it would be easy to do so but it turns out that print quality for SVG is utter rubbish in **all** the browsers out there, even today. If you don't believe me, read this: [Using SVG to make custom paper (and why it didn't work)](http://johnmunsch.com/2013/09/01/using-svg-to-make-custom-paper-and-why-it-didnt-work/) I was, frankly, astonished that it didn't work.
+
+So I figured out that I could print a really big image from the browser and that looked great on paper (because everybody cares how their pictures print out) so I switched to using [Paper.js](http://paperjs.org/) to render the page image on demand and it works pretty darn well if I do say so myself. Plus, you don't have to stand up a big complicated server to generate PDF files on the fly or anything like that.
+
+Anyway, this is the code that makes [PaperQuik.com](http://paperquik.com) go.
 
 ## Installation
 
