@@ -22,6 +22,18 @@ With all the software you need installed, you can run a couple of commands in th
 
 `npm install`
 
+## Running
+
+Then use Grunt to run a server and launch the web page in a browser where you can explore the working UI:
+
+`grunt serve`
+
+## Testing
+
+Or run the unit tests with (look for the code coverage reports as index.html files under the "coverage" directory; there will be one for each browser under which the tests were run):
+
+`grunt test`
+
 ## To-Do List
 
 The to-do list breaks down into three major categories of functionality which are needed: 
