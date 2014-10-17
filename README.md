@@ -1,8 +1,6 @@
 # PaperQuik README
 
-[![Code Climate](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/gpa.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)
-
-[![Test Coverage](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/coverage.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)
+[![Code Climate](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/gpa.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)  [![Test Coverage](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/coverage.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)
 
 ## Introduction
 
