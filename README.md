@@ -1,5 +1,9 @@
 # PaperQuik README
 
+[![Code Climate](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/gpa.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)
+
+[![Test Coverage](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/coverage.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)
+
 ## Introduction
 
 After going to several sites and not being able to get the kind of printable paper I wanted (due to poor print quality or a lack of choices I liked), I decided to make my own. I thought it would be easy to do so but it turns out that print quality for SVG is utter rubbish in **all** the browsers out there, even today. If you don't believe me, read this: [Using SVG to make custom paper (and why it didn't work)](http://johnmunsch.com/2013/09/01/using-svg-to-make-custom-paper-and-why-it-didnt-work/) I was, frankly, astonished that it didn't work.
