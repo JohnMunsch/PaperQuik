@@ -14,7 +14,7 @@ Anyway, this is the code that makes [PaperQuik.com](http://paperquik.com) go.
 
 You don't really have to "install" anything to look at or use the code. But if you want to see it run locally or run the unit tests you'll need to do a few things. First off, make sure you've installed [Node.js](http://nodejs.org) so you can run the Node Package Manager (npm). Then make sure you've installed both Grunt and Bower. I'm not going to tell you how to do all of that, but instead I'll just direct you to the [Yeoman project](http://yeoman.io) where they tell you about installing all of these great JavaScript tools. Fortunately, npm makes it all pretty darn easy and installing Node.js is easy too.
 
-Finally you need to install Karma (it's used for the unit-tests:
+Finally you need to install Karma (it's used for the unit-tests):
 
 `npm install -g karma`
 
@@ -57,4 +57,4 @@ The to-do list breaks down into three major categories of functionality which ar
 * Add a modal w/ printing instructions for Safari
 * Allow for double-sided pages
 * Create a 'Test Page' layout for printer testing
-i18n and l10n
+* i18n and l10n
