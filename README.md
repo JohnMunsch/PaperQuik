@@ -1,5 +1,7 @@
 # PaperQuik README
 
+[![Code Climate](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/gpa.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)  [![Test Coverage](https://codeclimate.com/github/JohnMunsch/PaperQuik/badges/coverage.svg)](https://codeclimate.com/github/JohnMunsch/PaperQuik)
+
 ## Introduction
 
 After going to several sites and not being able to get the kind of printable paper I wanted (due to poor print quality or a lack of choices I liked), I decided to make my own. I thought it would be easy to do so but it turns out that print quality for SVG is utter rubbish in **all** the browsers out there, even today. If you don't believe me, read this: [Using SVG to make custom paper (and why it didn't work)](http://johnmunsch.com/2013/09/01/using-svg-to-make-custom-paper-and-why-it-didnt-work/) I was, frankly, astonished that it didn't work.
@@ -12,7 +14,7 @@ Anyway, this is the code that makes [PaperQuik.com](http://paperquik.com) go.
 
 You don't really have to "install" anything to look at or use the code. But if you want to see it run locally or run the unit tests you'll need to do a few things. First off, make sure you've installed [Node.js](http://nodejs.org) so you can run the Node Package Manager (npm). Then make sure you've installed both Grunt and Bower. I'm not going to tell you how to do all of that, but instead I'll just direct you to the [Yeoman project](http://yeoman.io) where they tell you about installing all of these great JavaScript tools. Fortunately, npm makes it all pretty darn easy and installing Node.js is easy too.
 
-Finally you need to install Karma (it's used for the unit-tests:
+Finally you need to install Karma (it's used for the unit-tests):
 
 `npm install -g karma`
 
@@ -55,4 +57,4 @@ The to-do list breaks down into three major categories of functionality which ar
 * Add a modal w/ printing instructions for Safari
 * Allow for double-sided pages
 * Create a 'Test Page' layout for printer testing
-i18n and l10n
+* i18n and l10n
