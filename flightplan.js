@@ -1,4 +1,3 @@
-// flightplan.js
 var plan = require('flightplan');
 
 plan.target('production', [
@@ -11,8 +10,36 @@ plan.target('production', [
 
 var tmpDir = 'PaperQuik-com-' + new Date().getTime();
 
-// run commands on localhost
-plan.local(function(local) {
+// Install
+plan.remote('install', function (remote) {
+  remote.sudo('apt-get update');
+  remote.sudo('apt-get -y install apache2');
+  remote.sudo('apt-get -y install emacs23');
+  remote.sudo('apt-get -y install git');
+  remote.sudo('apt-get -y install unzip');
+});
+
+plan.local('install', function (local) {
+  local.echo("We couldn't copy this file earlier because there isn't a spot for it until after Apache is installed.");
+  local.transfer('paperquik.conf', '/etc/apache2/sites-available/');
+});
+
+plan.remote('install', function (remote) {
+  remote.sudo('a2enmod expires');
+  remote.sudo('a2enmod headers');
+  remote.sudo('a2enmod rewrite');
+  remote.sudo('a2enmod proxy_http');
+
+  remote.sudo('a2dissite 000-default');
+
+  remote.sudo('a2ensite paperquik');
+  remote.sudo('a2ensite mdm');
+
+  remote.sudo('service apache2 reload');
+});
+
+// Deploy
+plan.local('deploy', function(local) {
   local.log('Deploy the current build of PaperQuik.com.');
   local.log('Run build');
   local.exec('grunt build');
@@ -26,9 +53,17 @@ plan.local(function(local) {
   });
 });
 
-// run commands on the target's remote hosts
-plan.remote(function(remote) {
+plan.remote('deploy', function(remote) {
   remote.log('Move folder to web root');
   remote.sudo('cp -R /tmp/' + tmpDir + '/*' + ' /var/www/paperquik');
   remote.rm('-rf /tmp/' + tmpDir);
+});
+
+// Upgrade
+plan.remote('upgrade', function (remote) {
+  remote.log('Fetches the list of available upgrades.');
+  remote.sudo('apt-get update');
+
+  // And then actually does them.
+  remote.sudo('apt-get -y dist-upgrade');
 });
