@@ -1,3 +1,8 @@
+// Running this requires installing flightplan (see https://github.com/pstadler/flightplan).
+// Then use commands like:
+//   fly install:production
+//   fly deploy:production
+//   fly upgrade:production
 var plan = require('flightplan');
 
 plan.target('production', [
@@ -10,7 +15,9 @@ plan.target('production', [
 
 var tmpDir = 'PaperQuik-com-' + new Date().getTime();
 
-// Install
+// Install software on the server necessary to run this application.
+// Then ensure that Apache is properly configured to serve the 
+// application.
 plan.remote('install', function (remote) {
   remote.sudo('apt-get update');
   remote.sudo('apt-get -y install apache2');
@@ -38,7 +45,7 @@ plan.remote('install', function (remote) {
   remote.sudo('service apache2 reload');
 });
 
-// Deploy
+// Deploy the application.
 plan.local('deploy', function(local) {
   local.log('Deploy the current build of PaperQuik.com.');
   local.log('Run build');
@@ -59,7 +66,7 @@ plan.remote('deploy', function(remote) {
   remote.rm('-rf /tmp/' + tmpDir);
 });
 
-// Upgrade
+// Upgrade Ubuntu to the latest.
 plan.remote('upgrade', function (remote) {
   remote.log('Fetches the list of available upgrades.');
   remote.sudo('apt-get update');
