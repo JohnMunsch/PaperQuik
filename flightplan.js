@@ -1,4 +1,4 @@
-// Running this requires installing flightplan (see https://github.com/pstadler/flightplan).
+// Running this requires installing flightplan (https://github.com/pstadler/flightplan).
 // Then use commands like:
 //   fly install:production
 //   fly deploy:production
@@ -20,10 +20,7 @@ var tmpDir = 'PaperQuik-com-' + new Date().getTime();
 // application.
 plan.remote('install', function (remote) {
   remote.sudo('apt-get update');
-  remote.sudo('apt-get -y install apache2');
-  remote.sudo('apt-get -y install emacs23');
-  remote.sudo('apt-get -y install git');
-  remote.sudo('apt-get -y install unzip');
+  remote.sudo('apt-get -y install apache2 emacs23 git unzip');
 });
 
 plan.local('install', function (local) {
@@ -32,15 +29,11 @@ plan.local('install', function (local) {
 });
 
 plan.remote('install', function (remote) {
-  remote.sudo('a2enmod expires');
-  remote.sudo('a2enmod headers');
-  remote.sudo('a2enmod rewrite');
-  remote.sudo('a2enmod proxy_http');
+  remote.sudo('a2enmod expires headers rewrite proxy_http');
 
   remote.sudo('a2dissite 000-default');
 
-  remote.sudo('a2ensite paperquik');
-  remote.sudo('a2ensite mdm');
+  remote.sudo('a2ensite paperquik mdm');
 
   remote.sudo('service apache2 reload');
 });
@@ -68,7 +61,7 @@ plan.remote('deploy', function(remote) {
 
 // Upgrade Ubuntu to the latest.
 plan.remote('upgrade', function (remote) {
-  remote.log('Fetches the list of available upgrades.');
+  remote.log('Fetches the list of available Ubuntu upgrades.');
   remote.sudo('apt-get update');
 
   // And then actually does them.
