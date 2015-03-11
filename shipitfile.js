@@ -45,6 +45,9 @@ module.exports = function (shipit) {
           promises.push(shipit.remoteCopy('paperquik.conf', '~'));
           promises.push(shipit.remoteCopy('../ClearAndDraw/mdm.conf', '~'));
 
+          // Create the directories to which we map these projects.
+          promises.push(shipit.remote('sudo mkdir /var/www/mdm /var/www/paperquik'));
+
           return Promise.all(promises);
         })
         .then(function () {
