@@ -36,14 +36,23 @@ module.exports = function (shipit) {
         .then(function () {
           // We'll wait for the update to complete before installing some software I like to have on the
           // server.
-          return shipit.remote('sudo apt-get -y install apache2 emacs23 git unzip nodejs npm mongodb-org')
+          return shipit.remote('sudo apt-get -y install apache2 emacs23 git unzip nodejs npm mongodb-org');
+        })
+        .then(function () {
+          var promises = [ ];
+
+          // We couldn't copy this file earlier because there isn't a spot for it until after Apache is installed.
+          promises.push(shipit.remoteCopy('paperquik.conf', '~'));
+          promises.push(shipit.remoteCopy('../ClearAndDraw/mdm.conf', '~'));
+
+          return Promise.all(promises);
+        })
+        .then(function () {
+          return shipit.remote('sudo mv ~/*.conf /etc/apache2/sites-available/');
         }).then(function () {
           // We don't need the following set of actions to happen in any particular order. For example,
           // we're good if the disables happen before the enables.
           var promises = [ ];
-
-          // We couldn't copy this file earlier because there isn't a spot for it until after Apache is installed.
-          promises.push(shipit.remoteCopy('paperquik.conf', '/etc/apache2/sites-available/'));
 
           promises.push(shipit.remote('sudo a2enmod expires headers rewrite proxy_http'));
 
