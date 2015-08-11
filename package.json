@@ -1,9 +1,12 @@
 {
   "name": "paperquik",
   "version": "0.0.0",
+  "scripts": {
+    "shell": "ssh root@PocketChange",
+    "ls": "ansible prod -i hosts -m command -a \"ls\" -u root"
+  },
   "dependencies": {},
   "devDependencies": {
-    "flightplan": "^0.6.1",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.4.0",
     "grunt-bower-install": "~0.7.0",
@@ -42,8 +45,6 @@
     "karma-script-launcher": "^0.1.0",
     "load-grunt-tasks": "~0.2.0",
     "requirejs": "^2.1.11",
-    "shipit-cli": "^1.2.1",
-    "shipit-deploy": "^1.1.1",
     "time-grunt": "~0.2.1"
   },
   "engines": {
