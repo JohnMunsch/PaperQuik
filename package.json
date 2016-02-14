@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "shell": "ssh root@PocketChange",
-    "ls": "ansible prod -i hosts -m command -a \"ls\" -u root"
+    "configure": "ansible-playbook -b configure.yml",
+    "deploy": "ansible-playbook -b deploy.yml",
+    "upgrade": "ansible-playbook -b upgrade.yml"
   },
   "dependencies": {},
   "devDependencies": {

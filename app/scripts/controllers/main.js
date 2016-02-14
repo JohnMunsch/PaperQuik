@@ -10,13 +10,13 @@ angular.module('PaperQuikApp').controller('MainCtrl', function ($scope, $log, $r
 
   $scope.selectedPaper = null;
 
-  initialize($routeParams.paperID);
-
   function initialize(paperID) {
     if (paperID) {
       findPaperByID(paperID);
     }
   }
+
+  initialize($routeParams.paperID);
 
   $scope.paperSizes = function () {
     return rendering.paperAndLayouts;

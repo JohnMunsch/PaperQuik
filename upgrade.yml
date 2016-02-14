@@ -1,5 +1,5 @@
 ---
-- hosts: prod
+- hosts: webservers
 
   tasks:
   - name: Upgrade the list of packages.

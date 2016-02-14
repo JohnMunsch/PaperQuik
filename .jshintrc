@@ -20,5 +20,19 @@
   "smarttabs": true,
   "globals": {
     "angular": false
-  }
+  },
+  "predef": [
+    "_",
+    "paper",
+    "view",
+    "Size",
+    "Rectangle",
+    "Point",
+    "Shape",
+    "Path",
+    "CompoundPath",
+    "PointText",
+    "Raster",
+    "conditionizr"
+  ]
 }

@@ -1,6 +1,151 @@
 // Copyright 2014 John Munsch
-angular.module('PaperQuikApp').factory('rendering', function($location, $log) {
+angular.module('PaperQuikApp').factory('rendering', function() {
   'use strict';
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Drawing functions
+  ////////////////////////////////////////////////////////////////////////////////
+  function drawOutline(area, fill, options) {
+    var pixels = fill.pixels;
+
+    var rectangle = new Rectangle(
+        new Point(pixels(area.x), pixels(area.y)),
+        new Size(pixels(area.width), pixels(area.height)));
+
+    var path = new Path.Rectangle(rectangle);
+    path.strokeColor = options.outlineColor;
+    path.strokeWidth = options.outlineWidth;
+  }
+
+  function drawHeader(area, fill, options) {
+    var verticalLineLocation = 0.20 * area.width;
+    var gap = 1.5;
+    var pixels = fill.pixels;
+
+    var boundaryLines = new CompoundPath();
+    boundaryLines.moveTo(pixels(area.x), pixels(area.y));
+    boundaryLines.lineTo(pixels(area.x + area.width), pixels(area.y));
+
+    boundaryLines.moveTo(pixels(area.x), pixels(area.y + area.height));
+    boundaryLines.lineTo(pixels(area.x + area.width), pixels(area.y + area.height));
+
+    boundaryLines.moveTo(pixels(area.x + verticalLineLocation), pixels(area.y + gap));
+    boundaryLines.lineTo(pixels(area.x + verticalLineLocation), pixels(area.y + area.height - gap));
+
+    boundaryLines.strokeColor = options.headerColor;
+    boundaryLines.strokeWidth = options.headerWidth;
+
+    // Need to figure out text positioning.
+    var text = new PointText(new Point(pixels(area.x + 2), pixels(area.y + 4)));
+    text.fillColor = options.headerColor;
+    text.fontSize = '20pt';
+    text.content = 'Date/Number';
+
+    text = new PointText(new Point(pixels(area.x + verticalLineLocation + 2), pixels(area.y + 4)));
+    text.fillColor = options.headerColor;
+    text.fontSize = '20pt';
+    text.content = 'Title/Subject';
+  }
+
+  function drawFooter(area, fill) {
+    var pixels = fill.pixels;
+
+    var raster = new Raster('logo');
+
+    // Move the raster to the center of the view
+    raster.opacity = 0.8;
+    raster.scale(0.5);
+    raster.position = new Point(pixels(area.right) + (raster.size.width / 2) - 300,
+            pixels(area.top) + (raster.size.height / 2) + 3);
+  }
+
+  function drawBlank(area, fill, options) {
+    var adjustedAreas = adjustForHeader(area);
+
+    drawHeader(adjustedAreas.header, fill, options);
+    drawOutline(adjustedAreas.area, fill, options);
+    drawFooter(adjustedAreas.footer, fill);
+  }
+
+  function drawDotGrid(area, fill, options) {
+    var adjustedAreas = adjustForHeader(area);
+
+    drawHeader(adjustedAreas.header, fill, options);
+    drawOutline(adjustedAreas.area, fill, options);
+    drawFooter(adjustedAreas.footer, fill);
+
+    var pixels = fill.pixels;
+    var fillArea = adjustedAreas.area;
+
+    for (var x = (fillArea.x + options.dotSpacing);
+         x < (fillArea.x + fillArea.width);
+         x += options.dotSpacing) {
+      for (var y = (fillArea.y + options.dotSpacing);
+           y < (fillArea.y + fillArea.height);
+           y += options.dotSpacing) {
+        var shape = new Shape.Circle(new Point(pixels(x), pixels(y)), options.dotRadius);
+        shape.fillColor = options.dotColor;
+      }
+    }
+  }
+
+  function drawDottedRuledLines(area, fill, options) {
+    options.dotSpacing = options.ruleSize;
+
+    drawDotGrid(area, fill, options);
+    drawRuledLines(area, fill, options);
+  }
+
+  function drawRuledLines(area, fill, options) {
+    var adjustedAreas = adjustForHeader(area);
+
+    drawHeader(adjustedAreas.header, fill, options);
+    drawOutline(adjustedAreas.area, fill, options);
+    drawFooter(adjustedAreas.footer, fill);
+
+    var pixels = fill.pixels;
+    var fillArea = adjustedAreas.area;
+
+    var horizontalLines = new CompoundPath();
+    for (var y = (fillArea.y + options.ruleSize);
+         y < (fillArea.y + fillArea.height);
+         y += options.ruleSize) {
+      horizontalLines.moveTo(pixels(fillArea.x), pixels(y));
+      horizontalLines.lineTo(pixels(fillArea.x + fillArea.width), pixels(y));
+    }
+
+    horizontalLines.strokeColor = options.ruleColor;
+    horizontalLines.strokeWidth = options.ruleWidth;
+  }
+
+  function drawSquareGraph(area, fill, options) {
+    var adjustedAreas = adjustForHeader(area);
+
+    drawHeader(adjustedAreas.header, fill, options);
+    drawOutline(adjustedAreas.area, fill, options);
+    drawFooter(adjustedAreas.footer, fill);
+
+    var pixels = fill.pixels;
+    var fillArea = adjustedAreas.area;
+
+    var verticalLines = new CompoundPath();
+    for (var x = fillArea.x + options.lineSpacing; x < (fillArea.x + fillArea.width); x += options.lineSpacing) {
+      verticalLines.moveTo(pixels(x), pixels(fillArea.y));
+      verticalLines.lineTo(pixels(x), pixels(fillArea.y + fillArea.height));
+    }
+
+    verticalLines.strokeColor = options.lineColor;
+    verticalLines.strokeWidth = options.lineWidth;
+
+    var horizontalLines = new CompoundPath();
+    for (var y = fillArea.y + options.lineSpacing; y < (fillArea.y + fillArea.height); y += options.lineSpacing) {
+      horizontalLines.moveTo(pixels(fillArea.x), pixels(y));
+      horizontalLines.lineTo(pixels(fillArea.x + fillArea.width), pixels(y));
+    }
+
+    horizontalLines.strokeColor = options.lineColor;
+    horizontalLines.strokeWidth = options.lineWidth;
+  }
 
   var colors = {
     'Black' : '#000000',
@@ -153,151 +298,6 @@ angular.module('PaperQuikApp').factory('rendering', function($location, $log) {
               originalArea.height - (headerHeight + gap)),
       footer: new Rectangle(originalArea.x, originalArea.y + originalArea.height, originalArea.width, 50)
     };
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // Drawing functions
-  ////////////////////////////////////////////////////////////////////////////////
-  function drawOutline(area, fill, options) {
-    var pixels = fill.pixels;
-
-    var rectangle = new Rectangle(
-        new Point(pixels(area.x), pixels(area.y)),
-        new Size(pixels(area.width), pixels(area.height)));
-
-    var path = new Path.Rectangle(rectangle);
-    path.strokeColor = options.outlineColor;
-    path.strokeWidth = options.outlineWidth;
-  }
-
-  function drawHeader(area, fill, options) {
-    var verticalLineLocation = 0.20 * area.width;
-    var gap = 1.5;
-    var pixels = fill.pixels;
-
-    var boundaryLines = new CompoundPath();
-    boundaryLines.moveTo(pixels(area.x), pixels(area.y));
-    boundaryLines.lineTo(pixels(area.x + area.width), pixels(area.y));
-
-    boundaryLines.moveTo(pixels(area.x), pixels(area.y + area.height));
-    boundaryLines.lineTo(pixels(area.x + area.width), pixels(area.y + area.height));
-
-    boundaryLines.moveTo(pixels(area.x + verticalLineLocation), pixels(area.y + gap));
-    boundaryLines.lineTo(pixels(area.x + verticalLineLocation), pixels(area.y + area.height - gap));
-
-    boundaryLines.strokeColor = options.headerColor;
-    boundaryLines.strokeWidth = options.headerWidth;
-
-    // Need to figure out text positioning.
-    var text = new PointText(new Point(pixels(area.x + 2), pixels(area.y + 4)));
-    text.fillColor = options.headerColor;
-    text.fontSize = '20pt';
-    text.content = 'Date/Number';
-
-    text = new PointText(new Point(pixels(area.x + verticalLineLocation + 2), pixels(area.y + 4)));
-    text.fillColor = options.headerColor;
-    text.fontSize = '20pt';
-    text.content = 'Title/Subject';
-  }
-
-  function drawFooter(area, fill, options) {
-    var pixels = fill.pixels;
-
-    var raster = new Raster('logo');
-
-    // Move the raster to the center of the view
-    raster.opacity = 0.8;
-    raster.scale(0.5);
-    raster.position = new Point(pixels(area.right) + (raster.size.width / 2) - 300,
-            pixels(area.top) + (raster.size.height / 2) + 3);
-  }
-
-  function drawBlank(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
-
-    drawHeader(adjustedAreas.header, fill, options);
-    drawOutline(adjustedAreas.area, fill, options);
-    drawFooter(adjustedAreas.footer, fill, options);
-  }
-
-  function drawDotGrid(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
-
-    drawHeader(adjustedAreas.header, fill, options);
-    drawOutline(adjustedAreas.area, fill, options);
-    drawFooter(adjustedAreas.footer, fill, options);
-
-    var pixels = fill.pixels;
-    var fillArea = adjustedAreas.area;
-
-    for (var x = (fillArea.x + options.dotSpacing);
-         x < (fillArea.x + fillArea.width);
-         x += options.dotSpacing) {
-      for (var y = (fillArea.y + options.dotSpacing);
-           y < (fillArea.y + fillArea.height);
-           y += options.dotSpacing) {
-        var shape = new Shape.Circle(new Point(pixels(x), pixels(y)), options.dotRadius);
-        shape.fillColor = options.dotColor;
-      }
-    }
-  }
-
-  function drawDottedRuledLines(area, fill, options) {
-    options.dotSpacing = options.ruleSize;
-
-    drawDotGrid(area, fill, options);
-    drawRuledLines(area, fill, options);
-  }
-
-  function drawRuledLines(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
-
-    drawHeader(adjustedAreas.header, fill, options);
-    drawOutline(adjustedAreas.area, fill, options);
-    drawFooter(adjustedAreas.footer, fill, options);
-
-    var pixels = fill.pixels;
-    var fillArea = adjustedAreas.area;
-
-    var horizontalLines = new CompoundPath();
-    for (var y = (fillArea.y + options.ruleSize);
-         y < (fillArea.y + fillArea.height);
-         y += options.ruleSize) {
-      horizontalLines.moveTo(pixels(fillArea.x), pixels(y));
-      horizontalLines.lineTo(pixels(fillArea.x + fillArea.width), pixels(y));
-    }
-
-    horizontalLines.strokeColor = options.ruleColor;
-    horizontalLines.strokeWidth = options.ruleWidth;
-  }
-
-  function drawSquareGraph(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
-
-    drawHeader(adjustedAreas.header, fill, options);
-    drawOutline(adjustedAreas.area, fill, options);
-    drawFooter(adjustedAreas.footer, fill, options);
-
-    var pixels = fill.pixels;
-    var fillArea = adjustedAreas.area;
-
-    var verticalLines = new CompoundPath();
-    for (var x = fillArea.x + options.lineSpacing; x < (fillArea.x + fillArea.width); x += options.lineSpacing) {
-      verticalLines.moveTo(pixels(x), pixels(fillArea.y));
-      verticalLines.lineTo(pixels(x), pixels(fillArea.y + fillArea.height));
-    }
-
-    verticalLines.strokeColor = options.lineColor;
-    verticalLines.strokeWidth = options.lineWidth;
-
-    var horizontalLines = new CompoundPath();
-    for (var y = fillArea.y + options.lineSpacing; y < (fillArea.y + fillArea.height); y += options.lineSpacing) {
-      horizontalLines.moveTo(pixels(fillArea.x), pixels(y));
-      horizontalLines.lineTo(pixels(fillArea.x + fillArea.width), pixels(y));
-    }
-
-    horizontalLines.strokeColor = options.lineColor;
-    horizontalLines.strokeWidth = options.lineWidth;
   }
 
   // All measurements are in mm and IDs are just randomly generated here:

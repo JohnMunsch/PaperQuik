@@ -1,13 +1,13 @@
 // Copyright 2014 John Munsch
 var app = angular.module('PaperQuikApp');
 
-app.controller('PaperCtrl', function ($scope, $log, $timeout, $location, $routeParams,
-                                                                 $modal, rendering) {
+app.controller('PaperCtrl', function ($scope, $log, $timeout, $location,
+    $routeParams, $modal, rendering) {
   'use strict';
 
   var oneInch = 25.4;
   var threeQuartersInch = 0.75 * oneInch;
-  var halfInch = 0.5 * oneInch;
+  // var halfInch = 0.5 * oneInch;
 
   var pixelsPerMM = 11.811023622;
 
@@ -18,8 +18,6 @@ app.controller('PaperCtrl', function ($scope, $log, $timeout, $location, $routeP
 
   $scope.displayHeader = true;
 
-  initialize($routeParams.layoutID);
-
   function initialize(layoutID) {
     findPaperAndLayoutByID(layoutID);
 
@@ -27,6 +25,8 @@ app.controller('PaperCtrl', function ($scope, $log, $timeout, $location, $routeP
       $scope.dataURL = redrawCanvas($scope.selectedPaper, $scope.selectedLayout);
     });
   }
+
+  initialize($routeParams.layoutID);
 
   $scope.paperWidthInMM = function (paper) {
     if (paper) {
@@ -75,7 +75,7 @@ app.controller('PaperCtrl', function ($scope, $log, $timeout, $location, $routeP
 
   $scope.redraw = function () {
     $scope.dataURL = redrawCanvas($scope.selectedPaper, $scope.selectedLayout);
-  }
+  };
 
   function mmToPixels(mm) {
     // This is the number of dots per mm in order to achieve 300 dpi. Don't ask me why you always see resolutions
@@ -192,9 +192,11 @@ app.controller('PaperCtrl', function ($scope, $log, $timeout, $location, $routeP
 
 // This had to be moved out of interior of the PaperCtrl because it wasn't properly minified without it.
 app.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+  'use strict';
+
   $scope.chrome = conditionizr.chrome;
   $scope.firefox = conditionizr.firefox;
-  $scope.ie = (conditionizr.ie9 | conditionizr.ie10 | conditionizr.ie11);
+  $scope.ie = (conditionizr.ie9 || conditionizr.ie10 || conditionizr.ie11);
   $scope.opera = conditionizr.opera;
   $scope.safari = conditionizr.safari;
 
