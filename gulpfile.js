@@ -1,4 +1,7 @@
+'use strict';
+
 const gulp = require('gulp');
+const cp = require('child_process');
 // const concat = require('gulp-concat');
 // const uglify = require('gulp-uglify');
 // const rename = require('gulp-rename');
@@ -76,3 +79,22 @@ const gulp = require('gulp');
 //  * Define default task that can be called by just running `gulp` from cli
 //  */
 // gulp.task('default', build);
+
+gulp.task('configure', function() {
+  // In gulp 4, you can return a child process to signal task completion
+  return cp.exec('ansible-playbook -b configure.yml', {
+    cwd: 'ops'
+  });
+});
+
+gulp.task('deploy', function () {
+  return cp.exec('ansible-playbook -b deploy.yml', {
+    cwd: 'ops'
+  });
+});
+
+gulp.task('upgrade', function () {
+  return cp.exec('ansible-playbook -b upgrade.yml', {
+    cwd: 'ops'
+  });
+});
