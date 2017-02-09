@@ -28,7 +28,7 @@
       <h2>1: Pick a paper size</h2>
     </div>
     <div class="panel-body">
-      <a href="#/paper/{{ paper.id }}" ng-repeat="paper in paperSizes()">
+      <a href="#!/paper/{{ paper.id }}" ng-repeat="paper in paperSizes()">
         <div class="paperIcon"
             ng-style="paperIconStyle(paper)"
             ng-class="{ 'notSelected' : selectedPaper !== paper }"><span class="paperName">{{ paper.name }}</span>
@@ -42,7 +42,7 @@
     </div>
     <div class="panel-body">
       <div>
-        <a href="#/layout/{{ layout.id }}" ng-repeat="layout in paperLayouts(selectedPaper)">
+        <a href="#!/layout/{{ layout.id }}" ng-repeat="layout in paperLayouts(selectedPaper)">
           <div class="layoutIcon">
             <span class="layoutName">{{ layout.name }}</span>
             <div style="width: 100%; height: 125px; border: 1px solid black; overflow: hidden;">

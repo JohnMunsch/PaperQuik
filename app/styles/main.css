@@ -5,7 +5,7 @@
 }
 
 .jumbotron {
-  background-image: url("/images/Jumbotron-Group-Paper.jpg");
+  background-image: url("../images/Jumbotron-Group-Paper.jpg");
   background-size: cover;
 
   color: black;

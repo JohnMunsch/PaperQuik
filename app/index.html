@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/Superhero/bootstrap.css">
+    <link rel="stylesheet" href="styles/Superhero/bootstrap.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
@@ -24,30 +24,33 @@
     <div ng-view></div>
 
     <img id="logo" src="data:image/png;base64,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">
-    
+
     <!-- build:js scripts/scripts.js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/underscore/underscore.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/paper/dist/paper-full.js"></script>
-    <script src="bower_components/ngstorage/ngStorage.js"></script>
-    <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/angularitics/dist/angulartics.min.js"></script>
-    <script src="bower_components/angularitics/dist/angulartics-ga.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.min.js"></script>
 
-    <script src="bower_components/conditionizr/dist/conditionizr.js"></script>
-    <script src="bower_components/conditionizr/detects/chrome.js"></script>
-    <script src="bower_components/conditionizr/detects/firefox.js"></script>
-    <script src="bower_components/conditionizr/detects/ie9.js"></script>
-    <script src="bower_components/conditionizr/detects/ie10.js"></script>
-    <script src="bower_components/conditionizr/detects/ie11.js"></script>
-    <script src="bower_components/conditionizr/detects/opera.js"></script>
-    <script src="bower_components/conditionizr/detects/safari.js"></script>
+    <script src="components/paper/dist/paper-full.js"></script>
+    <script src="components/ngstorage/ngStorage.js"></script>
+    <script src="components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
+    <script src="components/angularitics/dist/angulartics.min.js"></script>
+    <script src="components/angularitics/dist/angulartics-ga.min.js"></script>
 
-    <script src="bower_components/conditionizr/detects/mac.js"></script>
-    <script src="bower_components/conditionizr/detects/windows.js"></script>
+    <script src="components/conditionizr/dist/conditionizr.js"></script>
+    <script src="components/conditionizr/detects/chrome.js"></script>
+    <script src="components/conditionizr/detects/firefox.js"></script>
+    <script src="components/conditionizr/detects/ie9.js"></script>
+    <script src="components/conditionizr/detects/ie10.js"></script>
+    <script src="components/conditionizr/detects/ie11.js"></script>
+    <script src="components/conditionizr/detects/opera.js"></script>
+    <script src="components/conditionizr/detects/safari.js"></script>
+
+    <script src="components/conditionizr/detects/mac.js"></script>
+    <script src="components/conditionizr/detects/windows.js"></script>
 
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>

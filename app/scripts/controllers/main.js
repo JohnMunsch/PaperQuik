@@ -43,6 +43,6 @@ angular.module('PaperQuikApp').controller('MainCtrl', function ($scope, $log, $r
 
   function findPaperByID(paperID) {
     // Find the paper, layout, and variant using the unique ID for the combination.
-    $scope.selectedPaper = _.findWhere(rendering.paperAndLayouts, { id: paperID });
+    $scope.selectedPaper = _.find(rendering.paperAndLayouts, { id: paperID });
   }
 });

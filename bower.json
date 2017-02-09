@@ -2,19 +2,11 @@
   "name": "PaperQuik",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "1.2.20",
-    "jquery": "~2.1.1",
-    "bootstrap": "~3.2.0",
-    "underscore": "~1.6.0",
-    "angular-route": "1.2.20",
     "paper": "~0.9.18",
     "ngstorage": "~0.3.0",
     "FileSaver": "*",
     "angular-ui-bootstrap-bower": "~0.11.0",
     "angularitics": "~0.15.20",
     "conditionizr": "~4.4.0"
-  },
-  "devDependencies": {
-    "angular-mocks": "1.2.20"
   }
 }
