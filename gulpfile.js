@@ -80,20 +80,20 @@ const cp = require('child_process');
 //  */
 // gulp.task('default', build);
 
-gulp.task('configure', function() {
+gulp.task('ops:configure', function() {
   // In gulp 4, you can return a child process to signal task completion
   return cp.exec('ansible-playbook -b configure.yml', {
     cwd: 'ops'
   });
 });
 
-gulp.task('deploy', function () {
+gulp.task('ops:deploy', function () {
   return cp.exec('ansible-playbook -b deploy.yml', {
     cwd: 'ops'
   });
 });
 
-gulp.task('upgrade', function () {
+gulp.task('ops:upgrade', function () {
   return cp.exec('ansible-playbook -b upgrade.yml', {
     cwd: 'ops'
   });

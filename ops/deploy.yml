@@ -7,5 +7,5 @@
     # Copy everything inside the dist directory to the directory Apache is
     # serving up.
     # - copy: src=dist/ dest=/var/www/{{ site }}
-    - synchronize: src=dist/ dest=/var/www/{{ site }}/
+    - synchronize: src=./dist/ dest=/var/www/{{ site }}/
                    recursive=yes
