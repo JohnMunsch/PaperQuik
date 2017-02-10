@@ -1,0 +1,165 @@
+{
+  function extend(dst) {
+    for (var i = 1; i < arguments.length; i++) {
+      for (var k in arguments[i]) {
+        dst[k] = arguments[i][k];
+      }
+    }
+    return dst;
+  }
+}
+
+visualFormatStringExt
+  = (visualFormatString / visualFormatStringConstraintExpression)
+
+visualFormatStringConstraintExpression
+  = "C:"
+    view:viewName
+    attribute:attributePredicate
+    attributes:(attributePredicate)*
+    comments:comments?
+  { return {
+      type: 'attribute',
+      view: view.view,
+      attributes: [attribute].concat(attributes)
+    }
+  }
+
+attributePredicate
+  = attr:attribute predicates:predicateListWithParens { return { attr: attr, predicates:predicates } }
+
+visualFormatString
+  = o:(orientation ":")?
+    superto:(superview connection)?
+    view:viewGroup
+    views:(connection viewGroup)*
+    tosuper:(connection superview)?
+    comments:comments?
+  { return {
+      type: 'vfl',
+      orientation: o ? o[0] : 'horizontal',
+      cascade: (superto || []).concat(
+        view,
+        [].concat.apply([], views),
+        (tosuper || [])
+      )
+    }
+  }
+
+orientation
+  = "HV" { return 'horzvert' }
+  / "H" { return 'horizontal' }
+  / "V" { return 'vertical' }
+  / "Z" { return 'zIndex' }
+
+comments
+  = " "* "//" .*
+
+superview
+  = "|" { return { view: null } }
+
+viewGroup
+  = "[" view:view views:("," view)* "]" { return views.length ? [view].concat([].concat.apply([], views)) : view }
+
+view
+  = view:viewNameRange predicates:predicateListWithParens? cascadedViews:cascadedViews?
+  { return extend(extend(view, predicates ? { constraints: predicates } : {}), cascadedViews ? {
+    cascade: cascadedViews
+  } : {}) }
+
+cascadedViews
+  = ":" views:(connection viewGroup)+ connection:connection { return [].concat([].concat.apply([], views),[connection]); }
+
+connection
+  = "->" { return [{ relation: 'none' }] }
+  / "-" predicateList:predicateList "-" { return predicateList }
+  / "-" { return [{ relation: 'equ', constant: 'default' }] }
+  / "~" predicateList:equalSpacingPredicateList "~" { return predicateList }
+  / "~" { return [{ relation: 'equ', equalSpacing: true }] }
+  / "" { return [{ relation: 'equ', constant: 0 }] }
+
+predicateList
+  = simplePredicate
+  / predicateListWithParens
+
+simplePredicate
+  = p:percentage { return [{ relation: 'equ', multiplier: p.multiplier }] }
+  / n:number { return [{ relation: 'equ', constant: n }] }
+
+predicateListWithParens
+  = "(" p:predicate ps:("," predicate)* ")"
+  { return [p].concat(ps.map(function(p){ return p[1] })) }
+
+predicate
+  = r:relation? o:objectOfPredicate p:("@" priority)?
+  { return extend({ relation: 'equ' }, (r || {}), o, (p ? p[1]: {})) }
+
+equalSpacingPredicateList
+  = "(" p:equalSpacingPredicate ps:("," equalSpacingPredicate)* ")" { return [p].concat(ps.map(function(p){ return p[1] })) }
+
+equalSpacingPredicate
+  = r:relation? o:objectOfPredicate p:("@" priority)?
+  { return extend({ relation: 'equ', equalSpacing: true }, (r || {}), o, (p ? p[1]: {})) }
+
+relation
+  = "==" { return { relation: 'equ' } }
+  / "<=" { return { relation: 'leq' } }
+  / ">=" { return { relation: 'geq' } }
+
+objectOfPredicate
+  = percentage
+  / constant
+  / viewPredicate
+  /*/ variable*/
+
+priority
+  = digits:[0-9]+ { return { priority: parseInt(digits.join(""), 10) } }
+
+constant
+  = n:number { return { constant: n } }
+  / "-" n:number { return { constant: -n } }
+  / "+" n:number { return { constant: n } }
+
+percentage
+  = n:number '%' { return { view: null, multiplier: n / 100 } }
+  / "-" n:number '%' { return { view: null, multiplier: n / -100 } }
+  / "+" n:number '%' { return { view: null, multiplier: n / 100 } }
+
+viewPredicate
+  = vn:viewName a:attribute? m:multiplier? c:constantExpr? { return { view: vn.view, attribute: a ? a : undefined, multiplier: m ? m : 1, constant: c ? c : undefined } }
+
+attribute
+  = '.left' { return 'left'}
+  / '.right' { return 'right'}
+  / '.top' { return 'top'}
+  / '.bottom' { return 'bottom'}
+  / '.width' { return 'width'}
+  / '.height' { return 'height'}
+  / '.centerX' { return 'centerX'}
+  / '.centerY' { return 'centerY'}
+
+multiplier
+  = "/" n:number { return 1 / n; }
+  / "/+" n:number { return 1 / n; }
+  / "/-" n:number { return -1 / n; }
+  / "*" n:number { return n; }
+  / "*+" n:number { return n; }
+  / "*-" n:number { return -n; }
+
+constantExpr
+  = "-" n:number { return -n; }
+  / "+" n:number { return n; }
+
+viewNameRange
+  = f:$[a-zA-Z_]+ v:$[a-zA-Z0-9_]* r:range { return { view: f + v, range: r, $parserOffset: offset() } }
+  / f:$[a-zA-Z_]+ v:$[a-zA-Z0-9_]* { return { view: f + v, $parserOffset: offset() } }
+
+viewName
+  = f:$[a-zA-Z_]+ v:$[a-zA-Z0-9_]* { return { view: f + v, $parserOffset: offset() } }
+
+range
+  = ".." d:[0-9]+ { return parseInt(d) }
+
+number
+  = digits:[0-9]+ "." decimals:[0-9]+ { return parseFloat(digits.concat(".").concat(decimals).join(""), 10); }
+  / digits:[0-9]+ { return parseInt(digits.join(""), 10); }

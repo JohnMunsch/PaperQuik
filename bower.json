@@ -1,5 +1,5 @@
 {
-  "name": "PaperQuik",
+  "name": "paperquik",
   "version": "0.0.0",
   "dependencies": {
     "paper": "~0.9.18",
@@ -7,6 +7,7 @@
     "FileSaver": "*",
     "angular-ui-bootstrap-bower": "~0.11.0",
     "angularitics": "~0.15.20",
-    "conditionizr": "~4.4.0"
+    "conditionizr": "~4.4.0",
+    "autolayout.js": "autolayout#^0.7.0"
   }
 }
