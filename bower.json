@@ -2,12 +2,11 @@
   "name": "paperquik",
   "version": "0.0.0",
   "dependencies": {
-    "paper": "~0.9.18",
+    "paper": "^0.10.2",
     "ngstorage": "~0.3.0",
-    "FileSaver": "*",
     "angular-ui-bootstrap-bower": "~0.11.0",
-    "angularitics": "~0.15.20",
-    "conditionizr": "~4.4.0",
-    "autolayout.js": "autolayout#^0.7.0"
+    "conditionizr": "^4.5.1",
+    "autolayout.js": "autolayout#^0.7.0",
+    "angulartics-google-analytics": "^0.4.0"
   }
 }

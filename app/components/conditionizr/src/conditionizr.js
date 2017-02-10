@@ -21,11 +21,11 @@
   };
 
   conditionizr.add = function (prop, fn) {
-    conditionizr[prop] = fn();
+    conditionizr[prop] = typeof fn === 'function' ? fn() : fn;
   };
 
   conditionizr.on = function (prop, fn) {
-    (conditionizr[prop] || /\!/.test(prop) && !conditionizr[prop.slice(1)]) && fn();
+    (conditionizr[prop] || /^!/.test(prop) && !conditionizr[prop.slice(1)]) && fn();
   };
 
   conditionizr.load = conditionizr.polyfill = function (file, props) {

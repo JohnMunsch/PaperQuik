@@ -15,19 +15,14 @@
   "main": "dist/paper-full.js",
   "ignore": [
     "build",
-    "components",
-    "dist/paper-node.js",
-    "projects",
+    "gulp",
     "node_modules",
     "package.json",
+    "projects",
     "src",
-    "test"
+    "test",
+    "travis"
   ],
-  "devDependencies": {
-    "straps": "~1.7.2",
-    "acorn": "~0.4.0",
-    "stats.js": "r11"
-  },
   "keywords": [
     "vector",
     "graphic",

@@ -15,19 +15,14 @@
   "main": "dist/paper-full.js",
   "ignore": [
     "build",
-    "components",
-    "dist/paper-node.js",
-    "projects",
+    "gulp",
     "node_modules",
     "package.json",
+    "projects",
     "src",
-    "test"
+    "test",
+    "travis"
   ],
-  "devDependencies": {
-    "straps": "~1.7.2",
-    "acorn": "~0.4.0",
-    "stats.js": "r11"
-  },
   "keywords": [
     "vector",
     "graphic",
@@ -44,14 +39,14 @@
     "paper",
     "paper.js"
   ],
-  "version": "0.9.25",
-  "_release": "0.9.25",
+  "version": "0.10.2",
+  "_release": "0.10.2",
   "_resolution": {
     "type": "version",
-    "tag": "v0.9.25",
-    "commit": "a1e4b9fa3c1a5c5a453cf0a427245d75ae298d4d"
+    "tag": "v0.10.2",
+    "commit": "aae9a92e94dc677364081a6b4f8e21de672ab2ed"
   },
   "_source": "https://github.com/paperjs/paper.js.git",
-  "_target": "~0.9.18",
+  "_target": "^0.10.2",
   "_originalSource": "paper"
 }
