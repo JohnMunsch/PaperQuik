@@ -1,4 +1,7 @@
 angular.module('PaperQuikApp').component('pqMainMenu', {
+  bindings: {
+    currentPage: '@'
+  },
   template: `
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -13,8 +16,8 @@ angular.module('PaperQuikApp').component('pqMainMenu', {
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li ng-class="{ 'active' : currentPage === 'home' }"><a href="#!/">Home</a></li>
-            <li ng-class="{ 'active' : currentPage === 'about' }"><a href="#!/about">About</a></li>
+            <li ng-class="{ 'active' : $ctrl.currentPage === 'home' }"><a href="#!/">Home</a></li>
+            <li ng-class="{ 'active' : $ctrl.currentPage === 'about' }"><a href="#!/about">About</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

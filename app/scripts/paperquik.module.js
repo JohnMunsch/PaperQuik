@@ -5,20 +5,16 @@ angular.module('PaperQuikApp', [ 'ngRoute', 'ngStorage', 'angulartics', 'angular
 
   $routeProvider
   .when('/', {
-    templateUrl: 'views/main.html',
-    controller: 'MainCtrl'
+    template: '<pq-main></pq-main>'
   })
   .when('/paper/:paperID', {
-    templateUrl: 'views/main.html',
-    controller: 'MainCtrl'
+    template: '<pq-main></pq-main>'
   })
   .when('/about', {
-    templateUrl: 'views/about.html',
-    controller: 'AboutCtrl'
+    template: '<pq-about></pq-about>'
   })
   .when('/layout/:layoutID', {
-    templateUrl: 'views/paper.html',
-    controller: 'PaperCtrl'
+    template: '<pq-paper></pq-paper>'
   })
   .otherwise({
     redirectTo: '/'
