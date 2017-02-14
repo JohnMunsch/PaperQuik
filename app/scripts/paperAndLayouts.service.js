@@ -1,28 +1,27 @@
-// Copyright 2014 John Munsch
-angular.module('PaperQuikApp').factory('rendering', function() {
-  'use strict';
+'use strict';
 
+angular.module('PaperQuikApp').factory('rendering', function() {
   ////////////////////////////////////////////////////////////////////////////////
   // Drawing functions
   ////////////////////////////////////////////////////////////////////////////////
   function drawOutline(area, fill, options) {
-    var pixels = fill.pixels;
+    let pixels = fill.pixels;
 
-    var rectangle = new Rectangle(
+    let rectangle = new Rectangle(
         new Point(pixels(area.x), pixels(area.y)),
         new Size(pixels(area.width), pixels(area.height)));
 
-    var path = new Path.Rectangle(rectangle);
+    let path = new Path.Rectangle(rectangle);
     path.strokeColor = options.outlineColor;
     path.strokeWidth = options.outlineWidth;
   }
 
   function drawHeader(area, fill, options) {
-    var verticalLineLocation = 0.20 * area.width;
-    var gap = 1.5;
-    var pixels = fill.pixels;
+    let verticalLineLocation = 0.20 * area.width;
+    const gap = 1.5;
+    let pixels = fill.pixels;
 
-    var boundaryLines = new CompoundPath();
+    let boundaryLines = new CompoundPath();
     boundaryLines.moveTo(pixels(area.x), pixels(area.y));
     boundaryLines.lineTo(pixels(area.x + area.width), pixels(area.y));
 
@@ -36,7 +35,7 @@ angular.module('PaperQuikApp').factory('rendering', function() {
     boundaryLines.strokeWidth = options.headerWidth;
 
     // Need to figure out text positioning.
-    var text = new PointText(new Point(pixels(area.x + 2), pixels(area.y + 4)));
+    let text = new PointText(new Point(pixels(area.x + 2), pixels(area.y + 4)));
     text.fillColor = options.headerColor;
     text.fontSize = '20pt';
     text.content = 'Date/Number';
@@ -48,9 +47,9 @@ angular.module('PaperQuikApp').factory('rendering', function() {
   }
 
   function drawFooter(area, fill) {
-    var pixels = fill.pixels;
+    let pixels = fill.pixels;
 
-    var raster = new Raster('logo');
+    let raster = new Raster('logo');
 
     // Move the raster to the center of the view
     raster.opacity = 0.8;
@@ -60,7 +59,7 @@ angular.module('PaperQuikApp').factory('rendering', function() {
   }
 
   function drawBlank(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
+    let adjustedAreas = adjustForHeader(area);
 
     drawHeader(adjustedAreas.header, fill, options);
     drawOutline(adjustedAreas.area, fill, options);
@@ -68,22 +67,22 @@ angular.module('PaperQuikApp').factory('rendering', function() {
   }
 
   function drawDotGrid(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
+    let adjustedAreas = adjustForHeader(area);
 
     drawHeader(adjustedAreas.header, fill, options);
     drawOutline(adjustedAreas.area, fill, options);
     drawFooter(adjustedAreas.footer, fill);
 
-    var pixels = fill.pixels;
-    var fillArea = adjustedAreas.area;
+    let pixels = fill.pixels;
+    let fillArea = adjustedAreas.area;
 
-    for (var x = (fillArea.x + options.dotSpacing);
+    for (let x = (fillArea.x + options.dotSpacing);
          x < (fillArea.x + fillArea.width);
          x += options.dotSpacing) {
-      for (var y = (fillArea.y + options.dotSpacing);
+      for (let y = (fillArea.y + options.dotSpacing);
            y < (fillArea.y + fillArea.height);
            y += options.dotSpacing) {
-        var shape = new Shape.Circle(new Point(pixels(x), pixels(y)), options.dotRadius);
+        let shape = new Shape.Circle(new Point(pixels(x), pixels(y)), options.dotRadius);
         shape.fillColor = options.dotColor;
       }
     }
@@ -97,17 +96,17 @@ angular.module('PaperQuikApp').factory('rendering', function() {
   }
 
   function drawRuledLines(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
+    let adjustedAreas = adjustForHeader(area);
 
     drawHeader(adjustedAreas.header, fill, options);
     drawOutline(adjustedAreas.area, fill, options);
     drawFooter(adjustedAreas.footer, fill);
 
-    var pixels = fill.pixels;
-    var fillArea = adjustedAreas.area;
+    let pixels = fill.pixels;
+    let fillArea = adjustedAreas.area;
 
-    var horizontalLines = new CompoundPath();
-    for (var y = (fillArea.y + options.ruleSize);
+    let horizontalLines = new CompoundPath();
+    for (let y = (fillArea.y + options.ruleSize);
          y < (fillArea.y + fillArea.height);
          y += options.ruleSize) {
       horizontalLines.moveTo(pixels(fillArea.x), pixels(y));
@@ -119,17 +118,17 @@ angular.module('PaperQuikApp').factory('rendering', function() {
   }
 
   function drawSquareGraph(area, fill, options) {
-    var adjustedAreas = adjustForHeader(area);
+    let adjustedAreas = adjustForHeader(area);
 
     drawHeader(adjustedAreas.header, fill, options);
     drawOutline(adjustedAreas.area, fill, options);
     drawFooter(adjustedAreas.footer, fill);
 
-    var pixels = fill.pixels;
-    var fillArea = adjustedAreas.area;
+    let pixels = fill.pixels;
+    let fillArea = adjustedAreas.area;
 
-    var verticalLines = new CompoundPath();
-    for (var x = fillArea.x + options.lineSpacing; x < (fillArea.x + fillArea.width); x += options.lineSpacing) {
+    let verticalLines = new CompoundPath();
+    for (let x = fillArea.x + options.lineSpacing; x < (fillArea.x + fillArea.width); x += options.lineSpacing) {
       verticalLines.moveTo(pixels(x), pixels(fillArea.y));
       verticalLines.lineTo(pixels(x), pixels(fillArea.y + fillArea.height));
     }
@@ -137,8 +136,8 @@ angular.module('PaperQuikApp').factory('rendering', function() {
     verticalLines.strokeColor = options.lineColor;
     verticalLines.strokeWidth = options.lineWidth;
 
-    var horizontalLines = new CompoundPath();
-    for (var y = fillArea.y + options.lineSpacing; y < (fillArea.y + fillArea.height); y += options.lineSpacing) {
+    let horizontalLines = new CompoundPath();
+    for (let y = fillArea.y + options.lineSpacing; y < (fillArea.y + fillArea.height); y += options.lineSpacing) {
       horizontalLines.moveTo(pixels(fillArea.x), pixels(y));
       horizontalLines.lineTo(pixels(fillArea.x + fillArea.width), pixels(y));
     }
@@ -147,12 +146,12 @@ angular.module('PaperQuikApp').factory('rendering', function() {
     horizontalLines.strokeWidth = options.lineWidth;
   }
 
-  var colors = {
+  const colors = {
     'Black' : '#000000',
     'Non-Photo Blue' : '#A4DDED'
   };
 
-  var ruleSizes = {
+  const ruleSizes = {
     'Wide Ruled (AKA Legal Ruled)' : 8.7,
     'Medium Ruled (AKA College Ruled)' : 7.1,
     'Narrow Ruled' : 6.35,
@@ -161,7 +160,7 @@ angular.module('PaperQuikApp').factory('rendering', function() {
     '6mm' : 6
   };
 
-  var availableFills = {
+  const availableFills = {
     blank: {
       name: 'Blank',
       render: drawBlank,
@@ -289,8 +288,8 @@ angular.module('PaperQuikApp').factory('rendering', function() {
   }
 
   function adjustForHeader(originalArea) {
-    var headerHeight = 15;
-    var gap = 3;
+    const headerHeight = 15;
+    const gap = 3;
 
     return {
       header: new Rectangle(originalArea.x, originalArea.y, originalArea.width, headerHeight),

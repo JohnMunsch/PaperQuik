@@ -2,13 +2,10 @@
 
 angular.module('PaperQuikApp').component('pqPaper', {
   controller: function ($scope, $log, $timeout, $location, $routeParams, $modal, rendering) {
-    var oneInch = 25.4;
-    var threeQuartersInch = 0.75 * oneInch;
-    // var halfInch = 0.5 * oneInch;
+    const oneInch = 25.4;
+    const threeQuartersInch = 0.75 * oneInch;
 
-    var pixelsPerMM = 11.811023622;
-
-    $scope.currentPage = 'paper';
+    const pixelsPerMM = 11.811023622;
 
     $scope.selectedPaper = null;
     $scope.selectedLayout = null;
@@ -93,20 +90,19 @@ angular.module('PaperQuikApp').component('pqPaper', {
 
     paper.install(window);
 
-    // TODO: This code needs to be drastically simplified because the layout is now doing all of the heavy lifting for the
-    // TODO: page drawing. This code should just set things up and get out of the way.
+    // TODO: This code needs to be drastically simplified because the layout is now doing all of the heavy lifting for the page drawing. This code should just set things up and get out of the way.
 
-    // The canvas has already been sized to the dimensions of the paper selected. The layout specifies the number of boxes
-    // on the page and their positions. The template specifies a particular set of fills, colors, outlining, etc. for
-    // each box.
+    // The canvas has already been sized to the dimensions of the paper selected. The layout specifies the number of
+    // boxes on the page and their positions. The template specifies a particular set of fills, colors, outlining, etc.
+    // for each box.
     //
     // For example, you might have a layout with two boxes, one large for the top 75% of the page and another small box
-    // beneath it. One template would put musical staffs in the top box and some ruled lines below while another would put
-    // graph paper in the top and an empty outlined box beneath.
+    // beneath it. One template would put musical staffs in the top box and some ruled lines below while another would
+    // put graph paper in the top and an empty outlined box beneath.
     function redrawCanvas(selectedPaper, selectedLayout) {
       // page dimensions
-      var pageSize = new Size(selectedPaper.width, selectedPaper.height);
-      var fullPage = new Rectangle(new Point(0, 0), pageSize);
+      let pageSize = new Size(selectedPaper.width, selectedPaper.height);
+      let fullPage = new Rectangle(new Point(0, 0), pageSize);
 
       // Setup directly from canvas id.
       paper.setup('hiddenCanvas');
@@ -116,10 +112,10 @@ angular.module('PaperQuikApp').component('pqPaper', {
 
       // Iterate through all the areas for this layout and fill each one in turn.
       _.each(selectedLayout.areas, function (area) {
-        var fill = area.fill;
-        var options = _.extend({ }, fill.defaults, area.overrides);
+        let fill = area.fill;
+        let options = _.extend({ }, fill.defaults, area.overrides);
         area.overrides = options;
-        var dimensions = null;
+        let dimensions = null;
 
         if (_.isFunction(area.dimensions)) {
           dimensions = area.dimensions(selectedPaper);
@@ -128,10 +124,10 @@ angular.module('PaperQuikApp').component('pqPaper', {
         }
 
         // Adjust the size of the target area for page margins.
-        var marginWidth = threeQuartersInch;
-        var margins = new Rectangle(new Point(marginWidth, marginWidth),
+        let marginWidth = threeQuartersInch;
+        let margins = new Rectangle(new Point(marginWidth, marginWidth),
           pageSize.subtract([ marginWidth * 2, marginWidth * 2 ]));
-        var adjustedArea = dimensions.intersect(margins);
+        let adjustedArea = dimensions.intersect(margins);
 
         // Adjust the size of the target area based on the pattern with which we're filling.
         adjustedArea = adjustAreaForPattern(adjustedArea, fill, options);
@@ -148,7 +144,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
       view.draw();
 
       // Pull an image out of the canvas so we can use it for preview and for printing.
-      var canvas = document.getElementsByTagName('canvas')[0];
+      let canvas = document.getElementsByTagName('canvas')[0];
       return canvas.toDataURL();
     }
 
@@ -156,18 +152,18 @@ angular.module('PaperQuikApp').component('pqPaper', {
     // Layout functions
     ////////////////////////////////////////////////////////////////////////////////
     function adjustAreaForPattern(area, fill, options) {
-      var adjustedArea = area.clone();
+      let adjustedArea = area.clone();
 
       // Calculate how many complete repetitions we can get in of our pattern in
       // each direction	and then how wide or tall that is.
       if (fill.horizontalPatternSize) {
-        var horizontalPatternSize = fill.horizontalPatternSize(options);
+        let horizontalPatternSize = fill.horizontalPatternSize(options);
 
         adjustedArea.width =
           Math.floor(area.width / horizontalPatternSize) * horizontalPatternSize;
       }
       if (fill.verticalPatternSize) {
-        var verticalPatternSize = fill.verticalPatternSize(options);
+        let verticalPatternSize = fill.verticalPatternSize(options);
 
         adjustedArea.height =
           Math.floor(area.height / verticalPatternSize) * verticalPatternSize;
@@ -180,7 +176,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
     // Drawing functions
     ////////////////////////////////////////////////////////////////////////////////
     function fillBackground(area, pixelsInMM) {
-      var shape = new Shape.Rectangle([ area.x * pixelsInMM, area.y * pixelsInMM],
+      let shape = new Shape.Rectangle([ area.x * pixelsInMM, area.y * pixelsInMM],
         [ area.width * pixelsInMM, area.height * pixelsInMM ]);
 
       shape.fillColor = 'white';

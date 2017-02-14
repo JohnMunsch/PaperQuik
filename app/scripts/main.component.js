@@ -6,13 +6,12 @@ angular.module('PaperQuikApp').component('pqMain', {
       showWelcome: true
     });
 
-    $scope.currentPage = 'home';
-
     $scope.selectedPaper = null;
 
     function initialize(paperID) {
       if (paperID) {
-        findPaperByID(paperID);
+        // Find the paper, layout, and variant using the unique ID for the combination.
+        $scope.selectedPaper = _.find(rendering.paperAndLayouts, { id: paperID });
       }
     }
 
@@ -40,11 +39,6 @@ angular.module('PaperQuikApp').component('pqMain', {
     $scope.selectPaper = function (paper) {
       $scope.selectedPaper = paper;
     };
-
-    function findPaperByID(paperID) {
-      // Find the paper, layout, and variant using the unique ID for the combination.
-      $scope.selectedPaper = _.find(rendering.paperAndLayouts, { id: paperID });
-    }
   },
   templateUrl: 'scripts/main.component.html'
 });
