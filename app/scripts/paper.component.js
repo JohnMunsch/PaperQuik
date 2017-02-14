@@ -1,94 +1,95 @@
 'use strict';
 
+const oneInch = 25.4;
+const threeQuartersInch = 0.75 * oneInch;
+
+const pixelsPerMM = 11.811023622;
+
 angular.module('PaperQuikApp').component('pqPaper', {
-  controller: function ($scope, $log, $timeout, $location, $routeParams, $modal, rendering) {
-    const oneInch = 25.4;
-    const threeQuartersInch = 0.75 * oneInch;
+  controller: class {
+    constructor ($log, $timeout, $routeParams, $modal, rendering) {
+      this.selectedPaper = null;
+      this.selectedLayout = null;
 
-    const pixelsPerMM = 11.811023622;
+      this.$log = $log;
+      this.$timeout = $timeout;
+      this.$modal = $modal;
+      this.rendering = rendering;
 
-    $scope.selectedPaper = null;
-    $scope.selectedLayout = null;
+      this.findPaperAndLayoutByID($routeParams.layoutID);
 
-    $scope.displayHeader = true;
-
-    function initialize(layoutID) {
-      findPaperAndLayoutByID(layoutID);
-
-      $timeout(function () {
-        $scope.dataURL = redrawCanvas($scope.selectedPaper, $scope.selectedLayout);
+      $timeout(() => {
+        this.dataURL = this.redrawCanvas(this.selectedPaper, this.selectedLayout);
       });
+
+      paper.install(window);
     }
 
-    initialize($routeParams.layoutID);
-
-    $scope.paperWidthInMM = function (paper) {
-      if (paper) {
-        return paper.width;
-      } else {
-        return 1;
-      }
-    };
-
-    $scope.paperHeightInMM = function (paper) {
-      if (paper) {
-        return paper.height;
-      } else {
-        return 1;
-      }
-    };
-
-    $scope.paperWidthInPixels = function (paper) {
-      return Math.round(mmToPixels($scope.paperWidthInMM(paper)));
-    };
-
-    $scope.paperHeightInPixels = function (paper) {
-      return Math.round(mmToPixels($scope.paperHeightInMM(paper)));
-    };
-
-    $scope.fills = function () {
-      return rendering.fills;
-    };
-
-    $scope.print = function () {
-      var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
-        controller: 'ModalInstanceCtrl'
-      });
-
-      modalInstance.result.then(function () {
-        // I don't like doing it this way, but if I don't then a fragment of the Bootstrap dialog is still on-screen and
-        // can mess up the print out on Windows.
-        $timeout(function () {
-          window.print();
-        });
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });
-    };
-
-    $scope.redraw = function () {
-      $scope.dataURL = redrawCanvas($scope.selectedPaper, $scope.selectedLayout);
-    };
-
-    function mmToPixels(mm) {
+    mmToPixels (mm) {
       // This is the number of dots per mm in order to achieve 300 dpi. Don't ask me why you always see resolutions
       // quoted in dots per inch when virtually the entire world is on the metric system.
       return pixelsPerMM * mm;
     }
 
-    function findPaperAndLayoutByID(layoutID) {
+    findPaperAndLayoutByID (layoutID) {
       // Find the paper, layout, and variant using the unique ID for the combination.
-      $scope.selectedPaper = _.find(rendering.paperAndLayouts, function (paper) {
-        $scope.selectedLayout = _.find(paper.layouts, function (layout) {
+      this.selectedPaper = _.find(this.rendering.paperAndLayouts, paper => {
+        this.selectedLayout = _.find(paper.layouts, layout => {
           return (layout.id === layoutID);
         });
 
-        return $scope.selectedLayout ? true : false;
+        return this.selectedLayout ? true : false;
       });
     }
 
-    paper.install(window);
+    paperWidthInMM (paper) {
+      if (paper) {
+        return paper.width;
+      } else {
+        return 1;
+      }
+    }
+
+    paperHeightInMM (paper) {
+      if (paper) {
+        return paper.height;
+      } else {
+        return 1;
+      }
+    }
+
+    paperWidthInPixels (paper) {
+      return Math.round(this.mmToPixels(this.paperWidthInMM(paper)));
+    }
+
+    paperHeightInPixels (paper) {
+      return Math.round(this.mmToPixels(this.paperHeightInMM(paper)));
+    }
+
+    fills () {
+      return rendering.fills;
+    }
+
+    print () {
+      let modalInstance = this.$modal.open({
+        templateUrl: 'myModalContent.html',
+        controller: 'ModalInstanceCtrl'
+      });
+
+      modalInstance.result.then(() => {
+        // I don't like doing it this way, but if I don't then a fragment of the Bootstrap dialog is still on-screen and
+        // can mess up the print out on Windows.
+        this.$timeout(() => {
+          window.print();
+        });
+      }, () => {
+        this.$log.info('Modal dismissed at: ' + new Date());
+      });
+    }
+
+    redraw () {
+      this.dataURL = redrawCanvas(this.selectedPaper, this.selectedLayout);
+    }
 
     // TODO: This code needs to be drastically simplified because the layout is now doing all of the heavy lifting for the page drawing. This code should just set things up and get out of the way.
 
@@ -99,7 +100,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
     // For example, you might have a layout with two boxes, one large for the top 75% of the page and another small box
     // beneath it. One template would put musical staffs in the top box and some ruled lines below while another would
     // put graph paper in the top and an empty outlined box beneath.
-    function redrawCanvas(selectedPaper, selectedLayout) {
+    redrawCanvas(selectedPaper, selectedLayout) {
       // page dimensions
       let pageSize = new Size(selectedPaper.width, selectedPaper.height);
       let fullPage = new Rectangle(new Point(0, 0), pageSize);
@@ -108,10 +109,10 @@ angular.module('PaperQuikApp').component('pqPaper', {
       paper.setup('hiddenCanvas');
 
       // If we don't do this then it looks good on the page, but the downloadable PNG file has no background.
-      fillBackground(fullPage, pixelsPerMM);
+      this.fillBackground(fullPage, pixelsPerMM);
 
       // Iterate through all the areas for this layout and fill each one in turn.
-      _.each(selectedLayout.areas, function (area) {
+      _.each(selectedLayout.areas, area => {
         let fill = area.fill;
         let options = _.extend({ }, fill.defaults, area.overrides);
         area.overrides = options;
@@ -130,7 +131,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
         let adjustedArea = dimensions.intersect(margins);
 
         // Adjust the size of the target area based on the pattern with which we're filling.
-        adjustedArea = adjustAreaForPattern(adjustedArea, fill, options);
+        adjustedArea = this.adjustAreaForPattern(adjustedArea, fill, options);
 
         // This is currently how I'm doing all of the scaling up of everything to page resolution (300dpi at the moment).
         fill.pixels = function (value) {
@@ -151,7 +152,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
     ////////////////////////////////////////////////////////////////////////////////
     // Layout functions
     ////////////////////////////////////////////////////////////////////////////////
-    function adjustAreaForPattern(area, fill, options) {
+    adjustAreaForPattern(area, fill, options) {
       let adjustedArea = area.clone();
 
       // Calculate how many complete repetitions we can get in of our pattern in
@@ -162,6 +163,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
         adjustedArea.width =
           Math.floor(area.width / horizontalPatternSize) * horizontalPatternSize;
       }
+
       if (fill.verticalPatternSize) {
         let verticalPatternSize = fill.verticalPatternSize(options);
 
@@ -175,7 +177,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
     ////////////////////////////////////////////////////////////////////////////////
     // Drawing functions
     ////////////////////////////////////////////////////////////////////////////////
-    function fillBackground(area, pixelsInMM) {
+    fillBackground(area, pixelsInMM) {
       let shape = new Shape.Rectangle([ area.x * pixelsInMM, area.y * pixelsInMM],
         [ area.width * pixelsInMM, area.height * pixelsInMM ]);
 

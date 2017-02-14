@@ -16,7 +16,7 @@
      We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
 </style>
 <pq-main-menu current-page="home"></pq-main-menu>
-<img class="visible-print" ng-src="{{dataURL}}">
+<img class="visible-print" ng-src="{{ $ctrl.dataURL }}">
 <div class="container hidden-print">
   <div class="leaderboardAdWrapperTop">
     <div class="leaderboardAd">
@@ -39,10 +39,10 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-md-8">
-          <img id="pageImage" width="100%" ng-src="{{dataURL}}">
+          <img id="pageImage" width="100%" ng-src="{{ $ctrl.dataURL }}">
         </div>
         <div class="col-md-4">
-          <button class="btn btn-primary btn-block" ng-click="print()">Print your paper</button>
+          <button class="btn btn-primary btn-block" ng-click="$ctrl.print()">Print your paper</button>
 
           <div id="mc_embed_signup">
             <form action="http://johnmunsch.us8.list-manage.com/subscribe/post?u=bd3c8c7355797b6633a3503e7&amp;id=e3f181919d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -56,8 +56,8 @@
         </div>
       </div>
 
-      <canvas class="hidden" id="hiddenCanvas" hidpi="off" width="{{paperWidthInPixels(selectedPaper)}}"
-              height="{{paperHeightInPixels(selectedPaper)}}">
+      <canvas class="hidden" id="hiddenCanvas" hidpi="off" width="{{ $ctrl.paperWidthInPixels($ctrl.selectedPaper) }}"
+              height="{{ $ctrl.paperHeightInPixels($ctrl.selectedPaper) }}">
       </canvas>
     </div>
   </div>

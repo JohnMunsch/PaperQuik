@@ -1,44 +1,43 @@
 'use strict';
 
 angular.module('PaperQuikApp').component('pqMain', {
-  controller: function ($scope, $log, $routeParams, $localStorage, rendering) {
-    $scope.$storage = $localStorage.$default({
-      showWelcome: true
-    });
+  controller: class {
+    constructor ($routeParams, $localStorage, rendering) {
+      this.selectedPaper = null;
+      this.rendering = rendering;
 
-    $scope.selectedPaper = null;
+      this.$storage = $localStorage.$default({
+        showWelcome: true
+      });
 
-    function initialize(paperID) {
-      if (paperID) {
+      if ($routeParams.paperID) {
         // Find the paper, layout, and variant using the unique ID for the combination.
-        $scope.selectedPaper = _.find(rendering.paperAndLayouts, { id: paperID });
+        this.selectedPaper = _.find(rendering.paperAndLayouts, { id: $routeParams.paperID });
       }
     }
 
-    initialize($routeParams.paperID);
+    paperSizes () {
+      return this.rendering.paperAndLayouts;
+    }
 
-    $scope.paperSizes = function () {
-      return rendering.paperAndLayouts;
-    };
-
-    $scope.paperIconStyle = function (paper) {
+    paperIconStyle (paper) {
       return {
         width: paper.width / 2.8 + 'px',
         height: paper.height / 2.8 + 'px'
       };
-    };
+    }
 
-    $scope.paperLayouts = function (paper) {
+    paperLayouts (paper) {
       if (paper) {
         return paper.layouts;
       } else {
         return [];
       }
-    };
+    }
 
-    $scope.selectPaper = function (paper) {
-      $scope.selectedPaper = paper;
-    };
+    selectPaper (paper) {
+      this.selectedPaper = paper;
+    }
   },
   templateUrl: 'scripts/main.component.html'
 });
