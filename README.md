@@ -52,14 +52,10 @@ The to-do list breaks down into three major categories of functionality which ar
 
 1. The current code uses a library to identify which browser the user is running and operating system as well. Usually we don't have to worry about such things, but printing in browsers is still stuck about a decade behind all the other neat stuff like 3D, compiled JavaScript, etc. The code needs additional instructions added for how best to print the pages using IE, Firefox, and Safari.
 
-1. Different paper layouts, better layout of the boxes on the page, the ability for the user to modify the printing (for example, line and dot colors), and double sided printing.
-
-1. IE preview looks like hell even on IE 11. After the high resolution image of the page has been generated, every other browser scales it down nicely and displays it as a preview. IE butchers it. Initially there should just be a message to tell the user that the preview is not indicative of the output, but later a replacement for the image scaling in IE would fix the problem.
+1. Different paper layouts, better layout of the boxes on the page, the ability for the user to modify the printing (for example, line and dot colors), and double sided printing
 
 ### The List
 
-* Add a message about the IE preview problems
-* Fix preview rendering on IE 11, 10, and 9
 * Create location calculation code
 * Build 'Cornell Note-Taking' layout
 * Build 'To-Do List' layout
