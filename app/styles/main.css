@@ -4,6 +4,12 @@
   }
 }
 
+@media print {
+  pq-main-menu {
+    display: none;
+  }
+}
+
 .jumbotron {
   background-image: url("../images/Jumbotron-Group-Paper.jpg");
   background-size: cover;
