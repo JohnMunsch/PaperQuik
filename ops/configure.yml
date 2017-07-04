@@ -1,14 +1,25 @@
 ---
+# Add this snippet to the top of your playbook.
+# It will install python2 if missing (but checks first so no expensive repeated apt updates)
+# gwillem@gmail.com
+- hosts: all
+  gather_facts: False
+
+  tasks:
+  - name: install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
 - hosts: webservers
   vars:
     site: paperquik
+
   tasks:
     # Update repositories cache and install several packages I need or like to
     # have (for example, I use emacs rather than vi).
     - apt: pkg={{item}} state=installed update_cache=yes
       with_items:
         - apache2
-        - emacs23
+        - emacs24
         - git
         - unzip
 
