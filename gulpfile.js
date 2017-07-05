@@ -33,7 +33,7 @@ gulp.task('clean', function () {
 
 // copy files to dist directory
 gulp.task('copy', () => {
-  return gulp.src(target.src, { cwd: './app/', base: './dist/' })
+  return gulp.src(target.src, { cwd: './app/', base: './app/' })
     .pipe(gulp.dest(target.dist));
 });
 
