@@ -19,6 +19,7 @@ let target = {
   src: [
     'components/**',
     'images/*',
+    'scripts/*.html',
     'favicon.ico',
     'robots.txt'
   ],
@@ -39,6 +40,8 @@ gulp.task('copy', () => {
 
 // usemin
 // - cache busting via JS and CSS file renaming
+// - uglify doesn't work because it doesn't support ES2015 code two years after
+//   the standard was released
 gulp.task('usemin', gulp.series('clean', 'copy', () => {
   return gulp.src(target.html)
     .pipe(usemin({
