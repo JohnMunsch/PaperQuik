@@ -16,6 +16,15 @@ angular.module('PaperQuikApp').component('pqMain', {
       }
     }
 
+    // Work around minification problems.
+    static get $inject() {
+      return [
+        '$routeParams',
+        '$localStorage',
+        'rendering'
+      ];
+    }
+
     paperSizes () {
       return this.rendering.paperAndLayouts;
     }

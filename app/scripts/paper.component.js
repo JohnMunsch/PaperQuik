@@ -25,6 +25,17 @@ angular.module('PaperQuikApp').component('pqPaper', {
       paper.install(window);
     }
 
+    // Work around minification problems.
+    static get $inject() {
+      return [
+        '$log',
+        '$timeout',
+        '$routeParams',
+        '$modal',
+        'rendering'
+      ];
+    }
+
     mmToPixels (mm) {
       // This is the number of dots per mm in order to achieve 300 dpi. Don't ask me why you always see resolutions
       // quoted in dots per inch when virtually the entire world is on the metric system.
@@ -188,7 +199,7 @@ angular.module('PaperQuikApp').component('pqPaper', {
 });
 
 // This had to be moved out of interior of the PaperCtrl because it wasn't properly minified without it.
-angular.module('PaperQuikApp').controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+angular.module('PaperQuikApp').controller('ModalInstanceCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
   'use strict';
 
   $scope.chrome = conditionizr.chrome;
@@ -207,4 +218,4 @@ angular.module('PaperQuikApp').controller('ModalInstanceCtrl', function ($scope,
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
-});
+}]);
