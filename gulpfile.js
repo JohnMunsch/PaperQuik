@@ -1,14 +1,27 @@
 'use strict';
 
 const gulp = require('gulp');
-const exec = require('child_process').execSync;
+
+const cleanCss = require('gulp-clean-css');
 const del = require('del');
+const exec = require('child_process').execSync;
+const htmlmin = require('gulp-htmlmin');
+const rev = require('gulp-rev');
+const usemin = require('gulp-usemin');
 
 let target = {
   clean: [
     './dist/'
   ],
-  sourceRoot: '../../app',
+  html: [
+    './app/index.html'
+  ],
+  src: [
+    'components/**',
+    'images/*',
+    'favicon.ico',
+    'robots.txt'
+  ],
   dist: './dist/'
 };
 
@@ -17,9 +30,28 @@ gulp.task('clean', function () {
 });
 
 // autoprefixer
+
+// copy files to dist directory
+gulp.task('copy', () => {
+  return gulp.src(target.src, { cwd: './app/', base: './dist/' })
+    .pipe(gulp.dest(target.dist));
+});
+
 // usemin
 // - cache busting via JS and CSS file renaming
-// copy files to dist directory
+gulp.task('usemin', gulp.series('clean', 'copy', () => {
+  return gulp.src(target.html)
+    .pipe(usemin({
+      css: [ rev() ],
+      html: [ htmlmin({ collapseWhitespace: true }) ],
+//      js: [ uglify(), rev() ],
+      js: [ rev() ],
+//      inlinejs: [ uglify() ],
+      inlinejs: [ ],
+      inlinecss: [ cleanCss(), 'concat' ]
+    }))
+    .pipe(gulp.dest(target.dist));
+}));
 
 // Ops tasks - All of these use Ansible to do their work.
 gulp.task('ops:configure', function() {
