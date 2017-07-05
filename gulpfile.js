@@ -42,15 +42,13 @@ gulp.task('copy', () => {
 // usemin
 // - cache busting via JS and CSS file renaming
 // - uglify doesn't work because it doesn't support ES2015 code two years after
-//   the standard was released
+//   the standard was released so we're using babili instead.
 gulp.task('usemin', gulp.series('clean', 'copy', () => {
   return gulp.src(target.html)
     .pipe(usemin({
       css: [ rev() ],
       html: [ htmlmin({ collapseWhitespace: true }) ],
-//      js: [ uglify(), rev() ],
-      js: [ rev() ],
-//      inlinejs: [ uglify() ],
+      js: [ babili(), rev() ],
       inlinejs: [ babili() ],
       inlinecss: [ cleanCss(), 'concat' ]
     }))
