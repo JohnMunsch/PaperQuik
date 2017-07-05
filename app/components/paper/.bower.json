@@ -14,10 +14,10 @@
   ],
   "main": "dist/paper-full.js",
   "ignore": [
-    "build",
+    "package.json",
+    "gulpfile.js",
     "gulp",
     "node_modules",
-    "package.json",
     "projects",
     "src",
     "test",
@@ -39,12 +39,12 @@
     "paper",
     "paper.js"
   ],
-  "version": "0.10.2",
-  "_release": "0.10.2",
+  "version": "0.10.3",
+  "_release": "0.10.3",
   "_resolution": {
     "type": "version",
-    "tag": "v0.10.2",
-    "commit": "aae9a92e94dc677364081a6b4f8e21de672ab2ed"
+    "tag": "v0.10.3",
+    "commit": "e54342715cabf26fd542916dd50a4ba3baa75d54"
   },
   "_source": "https://github.com/paperjs/paper.js.git",
   "_target": "^0.10.2",

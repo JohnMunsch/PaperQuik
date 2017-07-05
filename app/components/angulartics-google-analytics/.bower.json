@@ -22,6 +22,5 @@
   },
   "_source": "https://github.com/angulartics/angulartics-google-analytics.git",
   "_target": "^0.4.0",
-  "_originalSource": "angulartics-google-analytics",
-  "_direct": true
+  "_originalSource": "angulartics-google-analytics"
 }

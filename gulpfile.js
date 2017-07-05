@@ -2,6 +2,7 @@
 
 const gulp = require('gulp');
 
+const babili = require("gulp-babili");
 const cleanCss = require('gulp-clean-css');
 const del = require('del');
 const exec = require('child_process').execSync;
@@ -50,7 +51,7 @@ gulp.task('usemin', gulp.series('clean', 'copy', () => {
 //      js: [ uglify(), rev() ],
       js: [ rev() ],
 //      inlinejs: [ uglify() ],
-      inlinejs: [ ],
+      inlinejs: [ babili() ],
       inlinecss: [ cleanCss(), 'concat' ]
     }))
     .pipe(gulp.dest(target.dist));

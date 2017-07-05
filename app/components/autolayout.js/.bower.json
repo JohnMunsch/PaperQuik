@@ -50,6 +50,5 @@
   },
   "_source": "https://github.com/IjzerenHein/autolayout.js.git",
   "_target": "^0.7.0",
-  "_originalSource": "autolayout",
-  "_direct": true
+  "_originalSource": "autolayout"
 }

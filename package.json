@@ -8,6 +8,7 @@
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-babili": "^0.1.4",
     "gulp-clean-css": "^3.5.0",
     "gulp-htmlmin": "^3.0.0",
     "gulp-rev": "^7.1.2",
