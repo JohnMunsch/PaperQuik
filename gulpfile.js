@@ -17,7 +17,10 @@ let target = {
   html: [
     './app/index.html'
   ],
-  src: [
+  allSrc: [
+    '**'
+  ],
+  deploySrc: [
     'components/**',
     'images/*',
     'scripts/*.html',
@@ -31,11 +34,14 @@ gulp.task('clean', function () {
   return del(target.clean);
 });
 
-// autoprefixer
-
 // copy files to dist directory
-gulp.task('copy', () => {
-  return gulp.src(target.src, { cwd: './app/', base: './app/' })
+gulp.task('copy:everything', () => {
+  return gulp.src(target.allSrc, { cwd: './app/', base: './app/' })
+    .pipe(gulp.dest(target.dist));
+});
+
+gulp.task('copy:deploy', () => {
+  return gulp.src(target.deploySrc, { cwd: './app/', base: './app/' })
     .pipe(gulp.dest(target.dist));
 });
 
@@ -43,7 +49,7 @@ gulp.task('copy', () => {
 // - cache busting via JS and CSS file renaming
 // - uglify doesn't work because it doesn't support ES2015 code two years after
 //   the standard was released so we're using babili instead.
-gulp.task('usemin', gulp.series('clean', 'copy', () => {
+gulp.task('usemin', () => {
   return gulp.src(target.html)
     .pipe(usemin({
       css: [ rev() ],
@@ -53,7 +59,7 @@ gulp.task('usemin', gulp.series('clean', 'copy', () => {
       inlinecss: [ cleanCss(), 'concat' ]
     }))
     .pipe(gulp.dest(target.dist));
-}));
+});
 
 // Ops tasks - All of these use Ansible to do their work.
 gulp.task('ops:configure', function() {
@@ -75,4 +81,4 @@ gulp.task('ops:upgrade', function () {
   });
 });
 
-// gulp.task('default', gulp.parallel());
+gulp.task('deploy', gulp.series('clean', 'copy:deploy', 'usemin', 'ops:deploy'));
