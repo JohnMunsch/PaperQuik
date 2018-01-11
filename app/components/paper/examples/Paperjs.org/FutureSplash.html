@@ -80,12 +80,14 @@
             if (!point.fixed && location.distance < size.height / 4) {
                 var y = event.point.y;
                 point.y += (y - point.y) / 6;
-                var previous = segment.previous && segment.previous.point;
-                var next = segment.next && segment.next.point;
-                if (previous && !previous.fixed)
+                if (segment.previous && !segment.previous.fixed) {
+                    var previous = segment.previous.point;
                     previous.y += (y - previous.y) / 24;
-                if (next && !next.fixed)
+                }
+                if (segment.next && !segment.next.fixed) {
+                    var next = segment.next.point;
                     next.y += (y - next.y) / 24;
+                }
             }
         }
 
@@ -105,7 +107,7 @@
             for (var j = 0, l = springs.length; j < l; j++) {
                 springs[j].update();
             }
-            path.smooth({ type: 'continuous' });
+            path.smooth();
         }
 
         function onKeyDown(event) {

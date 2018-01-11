@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Interactive Tiger</title>
-    <link rel="stylesheet" href="../css/style.css">
     <script type="text/javascript" src="../../dist/paper-full.js"></script>
     <script type="text/paperscript" canvas="canvas">
         // Import the tiger svg:
@@ -11,9 +10,7 @@
         svg.visible = true; // Turn off display: none;
 
         // Resize the tiger to fit within the window:
-        view.on('resize', function() {
-            svg.fitBounds(this.bounds);
-        });
+        project.activeLayer.fitBounds(view.bounds);
 
         var items = project.activeLayer.firstChild.children;
         var mouseIsDown = false;
@@ -48,7 +45,7 @@
     </script>
 </head>
 <body>
-<canvas id="canvas" resize></canvas>
+<canvas id="canvas" width="600" height="600" resize=true></canvas>
 <svg xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink"
          height="600" width="600" id="svg" style="display:none">

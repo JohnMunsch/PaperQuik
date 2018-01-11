@@ -26,18 +26,18 @@
         var inner = new Path.Circle({
             center: view.center,
             radius: 100,
-            parent: originals,
-            fillColor: 'white'
+            insert: false
         });
 
         var outer = new Path.Circle({
             center: view.center,
             radius: 140,
-            parent: originals,
-            fillColor: 'white'
+            insert: false
         });
 
         var ring = outer.subtract(inner);
+        ring.parent = originals;
+        ring.fillColor = 'white';
 
         var operations = ['unite', 'intersect', 'subtract', 'exclude', 'divide'];
         var colors = ['red', 'green', 'blue', 'black'];
@@ -92,7 +92,7 @@
                 text.content = 'ring.' + operation + '(square)';
             }
             result.selected = true;
-            result.fillColor = colors[curIndex % colors.length];
+            result.fillColor = colors[curIndex % operations.length];
             result.moveBelow(text);
 
             // If the result is a group, color each of its children differently:

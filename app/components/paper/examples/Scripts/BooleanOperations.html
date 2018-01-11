@@ -256,8 +256,10 @@
         // pathA.style = pathStyleBoolean;
         // pathB.style = pathStyleBoolean;
 
+        // // reorientCompoundPath(pathB)
+
         // // var ixs = pathA.getIntersections(pathB);
-        // // ixs.map(function(a) { console.log("(" + a.path.id + " , " + a.curve.index + " , "+ a.time +")");
+        // // ixs.map(function(a) { console.log("(" + a.path.id + " , " + a.curve.index + " , "+ a.parameter +")");
         // // markPoint(a.point, " ") });
         // // ixs.map(function(a) { markPoint(a.point, " "); });
 
@@ -267,12 +269,14 @@
         // // annotatePath(pathB)
         // // pathB.translate([ 300, 0 ]);
         // // pathB.segments.filter(function(a) { return a._ixPair; }).map(
-        // //    function(a) { a._ixPair.intersection._segment.selected = true; });
+        // //    function(a) { a._ixPair.getIntersection()._segment.selected = true; });
 
         // console.time('unite');
         // var nup = unite(pathA, pathB);
         // console.timeEnd('unite');
         // // nup.style = booleanStyle;
+
+        // view.update();
     }
 
     var booleanStyle = {
@@ -305,6 +309,7 @@
             var boolPathU = _p1U.unite(_p2U);
             console.timeEnd('Union');
             boolPathU.style = booleanStyle;
+            view.update();
         }
 
         if (operations.intersection) {
@@ -315,6 +320,7 @@
             var boolPathI = _p1I.intersect(_p2I);
             console.timeEnd('Intersection');
             boolPathI.style = booleanStyle;
+            view.update();
         }
 
         if (operations.subtraction) {
@@ -325,6 +331,7 @@
             var boolPathS = _p1S.subtract(_p2S);
             console.timeEnd('Subtraction');
             boolPathS.style = booleanStyle;
+            view.update();
         }
 
         if (operations.exclusion) {
@@ -335,6 +342,7 @@
             var boolPathE = _p1E.exclude(_p2E);
             console.timeEnd('Exclusion');
             boolPathE.style = booleanStyle;
+            view.update();
         }
 
         if (operations.division) {
@@ -346,17 +354,20 @@
             console.timeEnd('Division');
             disperse(boolPathD);
             boolPathD.style = booleanStyle;
+            view.update();
         }
     }
 
     function disperse(path, distance) {
         distance = distance || 10;
+        if (! path instanceof CompoundPath || ! path instanceof Group) { return; }
         var center = path.bounds.center;
         var children = path.children, i ,len;
-        for (var i = 0, len = children && children.length; i < len; i++) {
+        for (var i = 0, len = children.length; i < len; i++) {
             var cCenter = children[i].bounds.center;
             var vec = cCenter.subtract(center);
-            children[i].translate(vec.length < 0.5 ? vec : vec.normalize(distance));
+            vec = (vec.isClose([0,0], 0.5))? vec : vec.normalize(distance);
+            children[i].translate(vec);
         }
     }
 
@@ -402,7 +413,7 @@
         t = t || s.index;
         if (remove === undefined) { remove = true; }
         var crv = s.curve;
-        var t1 = crv.getNormalAtTime(0).normalize(10);
+        var t1 = crv.getNormal(0).normalize(10);
         var p = s.point.clone().add(t1);
         var cir = new Path.Circle(s.point, 2);
         cir.style.fillColor = c;
@@ -427,12 +438,12 @@
         tc = tc || '#ccc';
         t = t || crv.index;
         if (remove === undefined) { remove = true; }
-        var p = crv.getPointAtTime(0.57);
-        var t1 = crv.getTangentAtTime(0.57).normalize(-10);
+        var p = crv.getPoint(0.57);
+        var t1 = crv.getTangent(0.57).normalize(-10);
         var p2 = p.clone().add(t1);
         var l = new Path.Line(p, p2).rotate(30, p);
         var l2 = new Path.Line(p, p2).rotate(-30, p);
-        p = crv.getPointAtTime(0.43);
+        p = crv.getPoint(0.43);
         var cir = new Path.Circle(p, 8);
         var text = new PointText(p.subtract([0, -4]));
         text.justification = 'center';

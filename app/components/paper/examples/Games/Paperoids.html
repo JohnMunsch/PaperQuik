@@ -103,7 +103,7 @@
             var explosionPath = new Path.Circle(new Point(), 1);
             explosionPath.fillColor = 'white';
             explosionPath.strokeColor = null;
-            return new SymbolDefinition(explosionPath);
+            return new Symbol(explosionPath);
         }
     };
 
@@ -189,7 +189,7 @@
             checkCollisions: function() {
                 var crashRock;
 
-                // move rocks and do a hit-test
+                // move rocks and do a hit test
                 // between bounding rect of rocks and ship
                 for (var i = 0; i < Rocks.children.length; i++) {
                     var rock = Rocks.children[i];
@@ -322,7 +322,7 @@
 
         var rockSymbols = [];
         for (var i = 0; i < shapes.length; i++) {
-            rockSymbols[i] = new SymbolDefinition(shapes[i]);
+            rockSymbols[i] = new Symbol(shapes[i]);
         }
 
         var explosions = new Group();
@@ -438,7 +438,7 @@
                 currentLives--;
                 this.display();
                 Ship.destroy();
-                setTimeout(function() {
+                setTimeout( function() {
                     if (currentLives == 0) {
                         Game.over();
                     } else {
@@ -448,7 +448,7 @@
             },
             display: function() {
                 group.removeChildren();
-                for (var i = 0;i < currentLives - 1; i++) {
+                for (var i=0;i<currentLives-1;i++) {
                     var copy = shipPath.clone();
                     copy.rotate(-90);
                     copy.visible = true;
@@ -491,20 +491,10 @@
     }
     </script>
     <style type="text/css">
-        html,
         body {
             margin: 0;
             overflow: hidden;
-            height: 100%;
-        }
-
-        canvas {
-            width: 100%;
-            height: 100%;
-        }
-
-        body {
-            background: #000;
+            background-color: #000;
             font-family:Helvetica,Arial;
         }
 
@@ -560,8 +550,8 @@
         }
     </style>
 </head>
-<body>
-    <canvas id="canvas" resize stats></canvas>
+<body style="background:black">
+    <canvas style="position:absolute" id="canvas" resize stats></canvas>
     <div id="footer" class="footer"><a href=#">Paperoids</a>.  To Play: <b>&#8592;</b> and <b>&#8594;</b> to rotate.  <b>&#8593;</b> for thrust.  <b>Z</b> to fire. <b>F</b> to show FPS. Follow @<a href="http://twitter.com/#/hirmes">hirmes</a> for updates. Made with the amazing <a href="http://paperjs.org">Paper.js</a></div>
 
     <div id="gameover" class="gameover">Game Over.  <a href="Paperoids.html">Play again</a>?</div>

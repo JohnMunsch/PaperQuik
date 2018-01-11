@@ -1,4 +1,6 @@
 /*!
  * Windows
  */
-conditionizr.add('windows', /win/i.test(navigator.platform));
+conditionizr.add('windows', function () {
+    return /win/i.test(navigator.platform);
+});

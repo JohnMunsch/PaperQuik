@@ -10,13 +10,9 @@
         // certain browsers when serving this script online:
         var path, position, max;
         var count = 0;
-        var grow = false;
-
-        // As the web is asynchronous, we need to wait for the raster to
-        // load before we can perform any operation on its pixels.
+        var grow = true;
         var raster = new Raster('mona');
-        raster.visible = false;
-        raster.on('load', resetSpiral);
+        raster.remove();
 
         var text = new PointText({
             justification: 'right',
@@ -26,9 +22,11 @@
                 : 'to drag & drop images, please use Webkit, Firefox, Chrome or IE 10'
         });
 
+        resetSpiral();
+
         function onFrame(event) {
             if (grow) {
-                if (raster.loaded && (view.center - position).length < max) {
+                if (raster && (view.center - position).length < max) {
                     for (var i = 0, l = count / 36 + 1; i < l; i++) {
                         growSpiral();
                     }
@@ -75,8 +73,7 @@
         }
 
         function onResize() {
-            if (raster.loaded)
-                resetSpiral();
+            resetSpiral();
             text.point = view.bounds.bottomRight - [30, 30];
         }
 
@@ -96,11 +93,11 @@
             var file = event.dataTransfer.files[0];
             var reader = new FileReader();
 
-            reader.onload = function (event) {
+            reader.onload = function ( event ) {
                 var image = document.createElement('img');
                 image.onload = function () {
                     raster = new Raster(image);
-                    raster.visible = false;
+                    raster.remove();
                     resetSpiral();
                 };
                 image.src = event.target.result;
@@ -108,9 +105,11 @@
             reader.readAsDataURL(file);
         }
 
-        document.addEventListener('drop', onDocumentDrop, false);
-        document.addEventListener('dragover', onDocumentDrag, false);
-        document.addEventListener('dragleave', onDocumentDrag, false);
+        DomEvent.add(document, {
+            drop: onDocumentDrop,
+            dragover: onDocumentDrag,
+            dragleave: onDocumentDrag
+        });
     </script>
 </head>
 <body>

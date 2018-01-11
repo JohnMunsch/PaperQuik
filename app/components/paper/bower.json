@@ -1,5 +1,6 @@
 {
   "name": "paper",
+  "version": "0.9.20",
   "description": "The Swiss Army Knife of Vector Graphics Scripting",
   "license": "MIT",
   "homepage": "http://paperjs.org",
@@ -7,22 +8,26 @@
     "type": "git",
     "url": "git://github.com/paperjs/paper.js"
   },
-  "bugs": "https://github.com/paperjs/paper.js/issues",
   "authors": [
     "Jürg Lehni <juerg@scratchdisk.com> (http://scratchdisk.com)",
     "Jonathan Puckey <jonathan@studiomoniker.com> (http://studiomoniker.com)"
   ],
   "main": "dist/paper-full.js",
   "ignore": [
-    "package.json",
-    "gulpfile.js",
-    "gulp",
-    "node_modules",
+    "build",
+    "components",
+    "dist/paper-node.js",
     "projects",
+    "node_modules",
+    "package.json",
     "src",
-    "test",
-    "travis"
+    "test"
   ],
+  "devDependencies": {
+    "straps": "~1.5.2",
+    "acorn": "git://github.com/paperjs/acorn#0.3.2",
+    "stats.js": "r11"
+  },
   "keywords": [
     "vector",
     "graphic",

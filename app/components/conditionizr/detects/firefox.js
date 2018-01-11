@@ -2,4 +2,6 @@
  * Firefox
  * Evaluate the presence of `InstallTrigger`
  */
-conditionizr.add('firefox', 'InstallTrigger' in window);
+conditionizr.add('firefox', function () {
+  return 'InstallTrigger' in window;
+});
