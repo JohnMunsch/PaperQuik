@@ -1,0 +1,27 @@
+{
+  "name": "conditionizr",
+  "version": "4.4.0",
+  "description": "Detecting front-end environments and conditionally loading assets",
+  "author": "@toddmotto, @markgdyr",
+  "license": "MIT",
+  "homepage": "https://github.com/conditionizr",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/conditionizr/conditionizr.git"
+  },
+  "devDependencies": {
+    "gulp": "~3.7.0",
+    "gulp-uglify": "~0.3.0",
+    "gulp-rename": "~1.1.0",
+    "gulp-clean": "^0.2.4",
+    "gulp-header": "^1.0.2",
+    "gulp-jshint": "^1.6.1",
+    "jshint-stylish": "^0.2.0",
+    "gulp-karma": "0.0.4",
+    "karma": "^0.12.16",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-spec-reporter": "0.0.13",
+    "gulp-plumber": "~0.6.2"
+  }
+}
