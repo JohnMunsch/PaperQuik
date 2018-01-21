@@ -1,8 +1,0 @@
----
-- hosts: webservers
-
-  tasks:
-  - name: Upgrade the list of packages.
-    apt: update_cache=yes
-  - name: Upgrade all the packages.
-    apt: upgrade=dist
